@@ -16,7 +16,7 @@ public class ModItems {
     public static final Item WOODCUTTER = null;
 
     @SubscribeEvent
-    public static void onBlockRegistry(final RegistryEvent.Register<Item> event) {
+    public static void onItemRegistry(final RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
             new BlockItem(ModBlocks.WOODCUTTER, new Item.Properties().group(ItemGroup.DECORATIONS)).setRegistryName(VillageLife.MOD_ID, "woodcutter")
         );
