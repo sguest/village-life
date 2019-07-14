@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "villagelife:blocks/woodcutter" },
+    "facing=south": { "model": "villagelife:blocks/woodcutter", "y": 180 },
+    "facing=west": { "model": "villagelife:blocks/woodcutter", "y": 270 },
+    "facing=east": { "model": "villagelife:blocks/woodcutter", "y": 90 }
+  }
+}
