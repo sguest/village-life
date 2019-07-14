@@ -3,16 +3,21 @@ package sguest.villagelife.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import sguest.villagelife.stats.ModStats;
 
 public class WoodcutterBlock extends Block {
     public static final DirectionProperty directionProperty;
@@ -33,6 +38,14 @@ public class WoodcutterBlock extends Block {
         return this.getDefaultState().with(directionProperty, context.getPlacementHorizontalFacing().getOpposite());
     }
 
+    @Override
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        player.openContainer(state.getContainer(worldIn, pos));
+        player.addStat(ModStats.INTERACT_WITH_WOODCUTTER);
+        return true;
+    }
+
+    @Override
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }
