@@ -1,4 +1,4 @@
-package sguest.villagelife.blocks;
+package sguest.villagelife.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

@@ -1,4 +1,4 @@
-package sguest.villagelife.items;
+package sguest.villagelife.item;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 import sguest.villagelife.VillageLife;
-import sguest.villagelife.blocks.ModBlocks;
+import sguest.villagelife.block.ModBlocks;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(VillageLife.MOD_ID)

@@ -1,4 +1,5 @@
 {
   "block.villagelife.woodcutter": "Woodcutter",
-  "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter"
+  "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
+  "container.villagelife.woodcutter": "Woodcutter"
 }
