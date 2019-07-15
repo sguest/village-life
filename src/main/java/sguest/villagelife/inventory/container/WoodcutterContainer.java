@@ -45,6 +45,16 @@ public class WoodcutterContainer extends Container {
 
         this.worldPos = worldPos;
         this.inputSlot = this.addSlot(new Slot(this.inputInventory, 0, 20, 33));
+
+        for(int k = 0; k < 3; ++k) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new Slot(inventory, j + k * 9 + 9, 8 + j * 18, 84 + k * 18));
+            }
+        }
+
+        for(int k = 0; k < 9; ++k) {
+            this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
+        }
     }
 
     @OnlyIn(Dist.CLIENT)    //func_217076_f
