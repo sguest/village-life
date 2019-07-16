@@ -1,8 +1,8 @@
 {
   "type": "villagelife:woodcutting",
   "ingredient": {
-    "item": "minecraft:oak_log"
+    "tag": "minecraft:oak_logs"
   },
-  "result": "minecraft:stripped_oak_wood",
+  "result": "minecraft:stripped_oak_log",
   "count": 1
 }
