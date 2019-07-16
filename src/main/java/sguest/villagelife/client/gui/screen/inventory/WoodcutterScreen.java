@@ -1,10 +1,13 @@
 package sguest.villagelife.client.gui.screen.inventory;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import sguest.villagelife.inventory.container.WoodcutterContainer;
 import sguest.villagelife.item.crafting.WoodcuttingRecipe;
@@ -14,11 +17,25 @@ import java.util.List;
 public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
     private static final ResourceLocation menuTexture = new ResourceLocation("textures/gui/container/stonecutter.png"); //field_214146_k
     private float scrollPosition;   //field_214147_l
-    private boolean hasScrollBar;   //field_214150_o
+    private boolean isScrolling; //field_214148_m
     private int firstDisplayedRecipeIndex; //field_214149_n
+    private boolean hasRecipes;   //field_214150_o
 
     public WoodcutterScreen(WoodcutterContainer container, PlayerInventory playerInventory, ITextComponent textComponent) {
         super(container, playerInventory, textComponent);
+        container.setScreenInitializer(this::initRecipes);
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float var3) {
+        super.render(mouseX, mouseY, var3);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        this.font.drawString(this.title.getFormattedText(), 8.0F, 4.0F, 4210752);
+        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 94), 4210752);
     }
 
     @Override
@@ -72,8 +89,48 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         RenderHelper.disableStandardItemLighting();
     }
 
-    private boolean renderScrollBar() {   //func_214143_c
-        return this.hasScrollBar && (this.container).recipeCount() > 12;
+    public boolean mouseClicked(double mouseX, double mouseY, int keyCode) {
+        this.isScrolling = false;
+        if (this.hasRecipes) {
+            int leftBound = this.guiLeft + 52;
+            int topBound = this.guiTop + 14;
+            int lastDisplayedRecipeIndex = this.firstDisplayedRecipeIndex + 12;
+
+            for(int i = this.firstDisplayedRecipeIndex; i < lastDisplayedRecipeIndex; ++i) {
+                int relativeIndex = i - this.firstDisplayedRecipeIndex;
+                double deltaLeft = mouseX - (double)(leftBound + relativeIndex % 4 * 16);
+                double deltaTop = mouseY - (double)(topBound + relativeIndex / 4 * 18);
+                if (deltaLeft >= 0.0D && deltaTop >= 0.0D && deltaLeft < 16.0D && deltaTop < 18.0D && this.container.enchantItem(this.minecraft.player, i)) {
+                    Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
+                    this.minecraft.playerController.sendEnchantPacket(this.container.windowId, i);
+                    return true;
+                }
+            }
+
+            leftBound = this.guiLeft + 119;
+            topBound = this.guiTop + 9;
+            if (mouseX >= (double)leftBound && mouseX < (double)(leftBound + 12) && mouseY >= (double)topBound && mouseY < (double)(topBound + 54)) {
+                this.isScrolling = true;
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, keyCode);
     }
 
+    //mouseDragged
+    //mouseScrolled
+
+    private boolean renderScrollBar() {   //func_214143_c
+        return this.hasRecipes && (this.container).recipeCount() > 12;
+    }
+
+    //func_214144_b
+
+    private void initRecipes() {
+        this.hasRecipes = this.container.hasRecipes();
+        if (!this.hasRecipes) {
+            this.scrollPosition = 0.0F;
+            this.firstDisplayedRecipeIndex = 0;
+        }
+    }
 }
