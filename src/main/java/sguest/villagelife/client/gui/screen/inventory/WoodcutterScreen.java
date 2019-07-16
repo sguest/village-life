@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import sguest.villagelife.inventory.container.WoodcutterContainer;
 import sguest.villagelife.item.crafting.WoodcuttingRecipe;
@@ -47,7 +48,7 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         int guiTop = this.guiTop;
         this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
         int scrollPosRelative = (int)(41.0F * this.scrollPosition);
-        this.blit(guiLeft + 119, guiTop + 15 + scrollPosRelative, 176 + (this.renderScrollBar() ? 0 : 12), 0, 12, 15);
+        this.blit(guiLeft + 119, guiTop + 15 + scrollPosRelative, 176 + (this.hasScrollBar() ? 0 : 12), 0, 12, 15);
         int recipeAreaTop = this.guiLeft + 52;
         int recipeAreaLeft = this.guiTop + 14;
         int lastDisplayedRecipeIndex = this.firstDisplayedRecipeIndex + 12;
@@ -117,14 +118,39 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         return super.mouseClicked(mouseX, mouseY, keyCode);
     }
 
-    //mouseDragged
-    //mouseScrolled
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double var4, double var5) {
+        if (this.isScrolling && this.hasScrollBar()) {
+            int scrollBarTop = this.guiTop + 14;
+            int scrollBarBottom = scrollBarTop + 54;
+            this.scrollPosition = ((float)mouseY - (float)scrollBarTop - 7.5F) / ((float)(scrollBarBottom - scrollBarTop) - 15.0F);
+            this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0F, 1.0F);
+            this.firstDisplayedRecipeIndex = (int)((double)(this.scrollPosition * (float)this.recipeRows()) + 0.5D) * 4;
+            return true;
+        } else {
+            return super.mouseDragged(mouseX, mouseY, button, var4, var5);
+        }
+    }
 
-    private boolean renderScrollBar() {   //func_214143_c
+    @Override
+    public boolean mouseScrolled(double var1, double var2, double scrollDistance) {
+        if (this.hasScrollBar()) {
+            int recipeRows = this.recipeRows();
+            this.scrollPosition = (float)((double)this.scrollPosition - scrollDistance / (double)recipeRows);
+            this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0F, 1.0F);
+            this.firstDisplayedRecipeIndex = (int)((double)(this.scrollPosition * (float)recipeRows) + 0.5D) * 4;
+        }
+
+        return true;
+    }
+    private boolean hasScrollBar() {   //func_214143_c
         return this.hasRecipes && (this.container).recipeCount() > 12;
     }
 
     //func_214144_b
+    protected int recipeRows() {
+        return (this.container.recipeCount() + 4 - 1) / 4 - 3;
+    }
 
     private void initRecipes() {
         this.hasRecipes = this.container.hasRecipes();
