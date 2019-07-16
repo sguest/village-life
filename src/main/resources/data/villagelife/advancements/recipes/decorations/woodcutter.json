@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_stone",
+      "has_wood",
       "has_the_recipe"
     ]
   ]
