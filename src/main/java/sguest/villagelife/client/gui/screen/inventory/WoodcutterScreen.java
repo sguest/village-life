@@ -17,10 +17,10 @@ import java.util.List;
 
 public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
     private static final ResourceLocation menuTexture = new ResourceLocation("textures/gui/container/stonecutter.png"); //field_214146_k
-    private float scrollPosition;   //field_214147_l
-    private boolean isScrolling; //field_214148_m
-    private int firstDisplayedRecipeIndex; //field_214149_n
-    private boolean hasRecipes;   //field_214150_o
+    private float scrollPosition;
+    private boolean isScrolling;
+    private int firstDisplayedRecipeIndex;
+    private boolean hasRecipes;
 
     public WoodcutterScreen(WoodcutterContainer container, PlayerInventory playerInventory, ITextComponent textComponent) {
         super(container, playerInventory, textComponent);
@@ -56,7 +56,6 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         this.drawRecipes(recipeAreaTop, recipeAreaLeft, lastDisplayedRecipeIndex);
     }
 
-    //func_214141_a
     private void drawRecipeBackgrounds(int mouseX, int mouseY, int guiTop, int guiLeft, int lastDisplayedRecipeIndex) {
         for(int i = this.firstDisplayedRecipeIndex; i < lastDisplayedRecipeIndex && i < this.container.recipeCount(); ++i) {
             int relativeIndex = i - this.firstDisplayedRecipeIndex;
@@ -74,7 +73,6 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         }
     }
 
-    //func_214142_b
     private void drawRecipes(int guiTop, int guiLeft, int lastDisplayedRecipeIndex) {
         RenderHelper.enableGUIStandardItemLighting();
         List<WoodcuttingRecipe> recipeList = this.container.getRecipeList();
@@ -147,7 +145,6 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         return this.hasRecipes && (this.container).recipeCount() > 12;
     }
 
-    //func_214144_b
     protected int recipeRows() {
         return (this.container.recipeCount() + 4 - 1) / 4 - 3;
     }

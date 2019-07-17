@@ -27,17 +27,17 @@ import sguest.villagelife.item.crafting.WoodcuttingRecipe;
 import java.util.List;
 
 public class WoodcutterContainer extends Container {
-    private final IWorldPosCallable worldPos;   //field_217088_g
-    private final IntReferenceHolder selectedIndex;  //field_217089_h
-    private final World world;  //field_217090_i
-    private List<WoodcuttingRecipe> recipeList; //field_217091_j
-    private ItemStack inputItemStack; //field_217092_k
-    private long lastSoundTime; //field_217093_l
-    final Slot inputSlot;   //field_217085_d
-    final Slot outputSlot;  //field_217086_e
-    private Runnable screenInitializer; //field_217094_m
-    public final IInventory inputInventory; //field_217087_f
-    private final CraftResultInventory outputInventory; //field_217095_n
+    private final IWorldPosCallable worldPos;
+    private final IntReferenceHolder selectedIndex;
+    private final World world;
+    private List<WoodcuttingRecipe> recipeList;
+    private ItemStack inputItemStack;
+    private long lastSoundTime;
+    final Slot inputSlot;
+    final Slot outputSlot;
+    private Runnable screenInitializer;
+    public final IInventory inputInventory;
+    private final CraftResultInventory outputInventory;
 
     public WoodcutterContainer(int id, PlayerInventory inventory) {
         this(id, inventory, IWorldPosCallable.DUMMY);
@@ -103,13 +103,13 @@ public class WoodcutterContainer extends Container {
         return this.selectedIndex.get();
     }
 
-    @OnlyIn(Dist.CLIENT)    //func_217076_f
+    @OnlyIn(Dist.CLIENT)
     public List<WoodcuttingRecipe> getRecipeList() {
         return this.recipeList;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public int recipeCount() {  //func_217075_g
+    public int recipeCount() {
         return this.recipeList.size();
     }
 
@@ -141,7 +141,6 @@ public class WoodcutterContainer extends Container {
         }
     }
 
-    //func_217074_a
     private void handleInputChanged(IInventory inventoryIn, ItemStack itemStack) {
         this.recipeList.clear();
         this.selectedIndex.set(-1);
@@ -156,7 +155,7 @@ public class WoodcutterContainer extends Container {
         return this.world.getRecipeManager().getRecipes(ModRecipes.WOODCUTTING_TYPE, inventoryIn, this.world);
     }
 
-    private void selectRecipe() {   //func_217082_i
+    private void selectRecipe() {
         if (!this.recipeList.isEmpty()) {
             WoodcuttingRecipe woodcuttingRecipe = this.recipeList.get(this.selectedIndex.get());
             this.outputSlot.putStack(woodcuttingRecipe.getCraftingResult(this.inputInventory));
