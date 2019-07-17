@@ -27,7 +27,6 @@ import sguest.villagelife.item.crafting.WoodcuttingRecipe;
 import java.util.List;
 
 public class WoodcutterContainer extends Container {
-    static final ImmutableList<Item> validInputs;
     private final IWorldPosCallable worldPos;   //field_217088_g
     private final IntReferenceHolder selectedIndex;  //field_217089_h
     private final World world;  //field_217090_i
@@ -148,9 +147,13 @@ public class WoodcutterContainer extends Container {
         this.selectedIndex.set(-1);
         this.outputSlot.putStack(ItemStack.EMPTY);
         if (!itemStack.isEmpty()) {
-            this.recipeList = this.world.getRecipeManager().getRecipes(ModRecipes.WOODCUTTING_TYPE, inventoryIn, this.world);
+            this.recipeList = this.loadRecipes(inventoryIn);
         }
 
+    }
+
+    private List<WoodcuttingRecipe> loadRecipes(IInventory inventoryIn) {
+        return this.world.getRecipeManager().getRecipes(ModRecipes.WOODCUTTING_TYPE, inventoryIn, this.world);
     }
 
     private void selectRecipe() {   //func_217082_i
@@ -177,6 +180,18 @@ public class WoodcutterContainer extends Container {
         return false;
     }
 
+    private boolean anyRecipeMatches(IInventory inventory) {
+        List<WoodcuttingRecipe> recipes = this.loadRecipes(inventory);
+
+        for (WoodcuttingRecipe recipe : recipes) {
+            if(recipe.matches(inventory, this.world)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemStackOutput = ItemStack.EMPTY;
@@ -185,6 +200,11 @@ public class WoodcutterContainer extends Container {
             ItemStack itemStack = slot.getStack();
             Item item = itemStack.getItem();
             itemStackOutput = itemStack.copy();
+
+            Inventory transferInventory = new Inventory(1);
+            ItemStack transferStack = itemStack.copy();
+            transferInventory.addItem(transferStack);
+
             if (index == 1) {
                 item.onCreated(itemStack, playerIn.world, playerIn);
                 if (!this.mergeItemStack(itemStack, 2, 38, true)) {
@@ -196,7 +216,7 @@ public class WoodcutterContainer extends Container {
                 if (!this.mergeItemStack(itemStack, 2, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (validInputs.contains(item)) {
+            } else if (this.anyRecipeMatches(transferInventory)) {
                 if (!this.mergeItemStack(itemStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -231,9 +251,5 @@ public class WoodcutterContainer extends Container {
         this.worldPos.consume((world, blockPos) -> {
             this.clearContainer(playerIn, playerIn.world, this.inputInventory);
         });
-    }
-
-    static {
-        validInputs = ImmutableList.of(Items.OAK_LOG, Items. OAK_WOOD, Items.STRIPPED_OAK_LOG, Items.STRIPPED_OAK_WOOD, Items.OAK_PLANKS);
     }
 }
