@@ -1,0 +1,8 @@
+{
+  "type": "villagelife:woodcutting",
+  "ingredient": {
+    "tag": "minecraft:spruce_logs"
+  },
+  "result": "minecraft:stripped_spruce_log",
+  "count": 1
+}

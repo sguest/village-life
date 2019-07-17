@@ -1,0 +1,8 @@
+{
+  "type": "villagelife:woodcutting",
+  "ingredient": {
+    "tag": "minecraft:birch_logs"
+  },
+  "result": "minecraft:stripped_birch_log",
+  "count": 1
+}
