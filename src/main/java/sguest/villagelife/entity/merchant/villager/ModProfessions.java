@@ -15,7 +15,7 @@ public class ModProfessions {
     public static final VillagerProfession CARPENTER = null;
 
     @SubscribeEvent
-    public static void onItemRegistry(final RegistryEvent.Register<VillagerProfession> event) {
+    public static void onProfessionRegistry(final RegistryEvent.Register<VillagerProfession> event) {
         event.getRegistry().registerAll(
             new VillagerProfession("carpenter", ModPointOfInterestTypes.CARPENTER, ImmutableSet.of(), ImmutableSet.of()).setRegistryName(VillageLife.MOD_ID, "carpenter")
         );

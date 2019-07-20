@@ -20,7 +20,7 @@ public class ModPointOfInterestTypes {
     public static final PointOfInterestType CARPENTER = null;
 
     @SubscribeEvent
-    public static void onItemRegistry(final RegistryEvent.Register<PointOfInterestType> event) {
+    public static void onPointOfInterestRegistry(final RegistryEvent.Register<PointOfInterestType> event) {
         event.getRegistry().registerAll(
             new PointOfInterestType("carpenter", toBlockState(ModBlocks.WOODCUTTER), 1, SoundEvents.ENTITY_VILLAGER_WORK_MASON).setRegistryName(VillageLife.MOD_ID, "carpenter")
         );
