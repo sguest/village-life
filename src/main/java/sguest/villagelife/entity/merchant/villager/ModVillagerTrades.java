@@ -12,6 +12,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.util.IItemProvider;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class ModVillagerTrades {
@@ -42,7 +43,9 @@ public class ModVillagerTrades {
             this.priceMultiplier = 0.05F;
         }
 
-        public MerchantOffer func_221182_a(Entity entity, Random random) {
+        @Nullable
+        @Override
+        public MerchantOffer getOffer(Entity entity, Random random) {
             ItemStack itemstack = new ItemStack(this.purchasedItem, this.defaultQuantity);
             return new MerchantOffer(itemstack, new ItemStack(Items.EMERALD), this.maxUses, this.givenExp, this.priceMultiplier);
         }

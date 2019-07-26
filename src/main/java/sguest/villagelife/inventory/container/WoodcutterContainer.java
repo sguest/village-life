@@ -95,7 +95,7 @@ public class WoodcutterContainer extends Container {
             this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
         }
 
-        this.func_216958_a(this.selectedIndex);
+        this.trackInt(this.selectedIndex);
     }
 
     @OnlyIn(Dist.CLIENT)
