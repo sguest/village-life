@@ -8,3 +8,11 @@ build/
 .idea/
 
 run/
+
+.project
+
+.settings/
+
+.classpath
+
+bin/
