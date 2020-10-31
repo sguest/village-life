@@ -1,4 +1,4 @@
-package sguest.villagelife.items;
+package sguest.villagelife.item;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
