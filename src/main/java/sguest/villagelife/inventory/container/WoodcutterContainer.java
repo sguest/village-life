@@ -11,6 +11,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
@@ -165,6 +166,55 @@ public class WoodcutterContainer extends Container {
             this.outputInventorySlot.putStack(ItemStack.EMPTY);
         }
         this.detectAndSendChanges();
+    }
+
+    public boolean canMergeSlot(ItemStack stack, Slot slot) {
+        return slot.inventory != this.outputInventory && super.canMergeSlot(stack, slot);
+    }
+
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+        ItemStack resultStack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+        if (slot != null && slot.getHasStack()) {
+            ItemStack inputStack = slot.getStack();
+            Item item = inputStack.getItem();
+            resultStack = inputStack.copy();
+            if (index == 1) {
+                item.onCreated(inputStack, player.world, player);
+                if (!this.mergeItemStack(inputStack, 2, 38, true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onSlotChange(inputStack, resultStack);
+            } else if (index == 0) {
+                if (!this.mergeItemStack(inputStack, 2, 38, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (this.world.getRecipeManager().getRecipe(ModRecipes.WOODCUTTING, new Inventory(inputStack), this.world).isPresent()) {
+                if (!this.mergeItemStack(inputStack, 0, 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (index >= 2 && index < 29) {
+                if (!this.mergeItemStack(inputStack, 29, 38, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (index >= 29 && index < 38 && !this.mergeItemStack(inputStack, 2, 29, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (inputStack.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            }
+
+            slot.onSlotChanged();
+            if (inputStack.getCount() == resultStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, inputStack);
+            this.detectAndSendChanges();
+        }
+
+        return resultStack;
     }
 
     public void onContainerClosed(PlayerEntity player) {
