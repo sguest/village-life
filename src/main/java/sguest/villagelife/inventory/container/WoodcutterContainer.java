@@ -9,10 +9,13 @@ import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -58,7 +61,29 @@ public class WoodcutterContainer extends Container {
         this.worldPosCallable = worldPosCallable;
         this.world = playerInventory.player.world;
         this.inputInventorySlot = this.addSlot(new Slot(this.inputInventory, 0, 20, 33));
-        this.outputInventorySlot = this.addSlot(new Slot(this.outputInventory, 1, 143, 33));
+        this.outputInventorySlot = this.addSlot(new Slot(this.outputInventory, 1, 143, 33) {
+            public boolean isItemValid(ItemStack itemStack) {
+                return false;
+            }
+
+            public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
+                itemStack.onCrafting(player.world, player, itemStack.getCount());
+                WoodcutterContainer.this.outputInventory.onCrafting(player);
+                ItemStack inputStack = WoodcutterContainer.this.inputInventorySlot.decrStackSize(1);
+                if(!inputStack.isEmpty()) {
+                    WoodcutterContainer.this.updateRecipeResultSlot();
+                }
+
+                worldPosCallable.consume((world, blockPos) -> {
+                    long gameTime = world.getGameTime();
+                    if(WoodcutterContainer.this.lastOnTake != gameTime) {
+                        world.playSound((PlayerEntity)null, blockPos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        WoodcutterContainer.this.lastOnTake = gameTime;
+                    }
+                });
+                return super.onTake(player, itemStack);
+            }
+        });
         
         for(int row = 0; row < 3; ++row) {
             for(int column = 0; column < 9; ++column) {
@@ -112,5 +137,41 @@ public class WoodcutterContainer extends Container {
     @OnlyIn(Dist.CLIENT)
     public List<WoodcuttingRecipe> getRecipeList() {
         return this.recipes;
+    }
+
+    public ContainerType<?> getType() {
+        return ModContainerTypes.WOODCUTTER.get();
+    }
+
+    public boolean enchantItem(PlayerEntity playerIn, int recipeIndex) {
+        if (isValidRecipeIndex(recipeIndex)) {
+            this.selectedRecipe.set(recipeIndex);
+            this.updateRecipeResultSlot();
+        }
+
+        return true;
+    }
+
+    private boolean isValidRecipeIndex(int recipeIndex) {
+        return recipeIndex >= 0 && recipeIndex < this.recipes.size();
+    }
+
+    private void updateRecipeResultSlot() {
+        if (!this.recipes.isEmpty() && this.isValidRecipeIndex(this.selectedRecipe.get())) {
+            WoodcuttingRecipe woodcuttingRecipe = this.recipes.get(this.selectedRecipe.get());
+            this.outputInventory.setRecipeUsed(woodcuttingRecipe);
+            this.outputInventorySlot.putStack(woodcuttingRecipe.getCraftingResult(this.inputInventory));
+        } else {
+            this.outputInventorySlot.putStack(ItemStack.EMPTY);
+        }
+        this.detectAndSendChanges();
+    }
+
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        this.outputInventory.removeStackFromSlot(1);
+        this.worldPosCallable.consume((world, blockPos) -> {
+            this.clearContainer(player, player.world, this.inputInventory);
+        });
     }
 }

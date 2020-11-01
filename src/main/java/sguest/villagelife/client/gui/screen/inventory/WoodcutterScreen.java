@@ -5,9 +5,12 @@ import java.util.List;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import sguest.villagelife.inventory.container.WoodcutterContainer;
 import sguest.villagelife.item.crafting.WoodcuttingRecipe;
@@ -15,7 +18,7 @@ import sguest.villagelife.item.crafting.WoodcuttingRecipe;
 public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("textures/gui/container/stonecutter.png");
     private static final int RECIPES_SHOWN = 12;
-    private static final int RECEIPE_AREA_LEFT = 52;
+    private static final int RECIPE_AREA_LEFT = 52;
     private static final int RECIPE_AREA_TOP = 14;
 
     private float sliderProgress;
@@ -63,7 +66,7 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
         this.blit(matrixStack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
         int scrollY = (int)(41.0F * this.sliderProgress);
         this.blit(matrixStack, guiLeft + 119, guiTop + 15 + scrollY, 176 + (this.canScroll() ? 0 : 12), 0, 12, 15);
-        int recipeAreaLeft = this.guiLeft + RECEIPE_AREA_LEFT;
+        int recipeAreaLeft = this.guiLeft + RECIPE_AREA_LEFT;
         int recipeAreaTop = this.guiTop + RECIPE_AREA_TOP;
         int lastRecipeIndex = this.recipeIndexOffset + RECIPES_SHOWN;
         this.drawRecipeBackgrounds(matrixStack, x, y, recipeAreaLeft, recipeAreaTop);
@@ -73,7 +76,7 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
     protected void renderHoveredTooltip(MatrixStack matrixStack, int mouseX, int mouseY) {
         super.renderHoveredTooltip(matrixStack, mouseX, mouseY);
         if (this.hasItemsInInputSlot) {
-            int recipeAreaLeft = this.guiLeft + RECEIPE_AREA_LEFT;
+            int recipeAreaLeft = this.guiLeft + RECIPE_AREA_LEFT;
             int recipeAreaTop = this.guiTop + RECIPE_AREA_TOP;
             int lastRecipeIndex = this.recipeIndexOffset + RECIPES_SHOWN;
             List<WoodcuttingRecipe> list = this.container.getRecipeList();
@@ -116,5 +119,32 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
             int itemTop = top + columnIndex * 18 + 2;
             this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(list.get(index).getRecipeOutput(), itemLeft, itemTop);
         }
+    }
+
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        this.clickedOnSroll = false;
+        if (this.hasItemsInInputSlot) {
+            int recipeAreaLeft = this.guiLeft + RECIPE_AREA_LEFT;
+            int recipeAreaTop = this.guiTop + RECIPE_AREA_TOP;
+            int maxRecipeIndex = this.recipeIndexOffset + RECIPES_SHOWN;
+
+            for(int index = this.recipeIndexOffset; index < maxRecipeIndex; ++index) {
+                int relativeIndex = index - this.recipeIndexOffset;
+                double itemMouseX = mouseX - (double)(recipeAreaLeft + relativeIndex % 4 * 16);
+                double itemMouseY = mouseY - (double)(recipeAreaTop + relativeIndex / 4 * 18);
+                if (itemMouseX >= 0.0D && itemMouseY >= 0.0D && itemMouseX < 16.0D && itemMouseY < 18.0D && this.container.enchantItem(this.minecraft.player, index)) {
+                    Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
+                    this.minecraft.playerController.sendEnchantPacket((this.container).windowId, index);
+                    return true;
+                }
+            }
+
+            recipeAreaLeft = this.guiLeft + 119;
+            recipeAreaTop = this.guiTop + 9;
+            if (mouseX >= (double)recipeAreaLeft && mouseX < (double)(recipeAreaLeft + 12) && mouseY >= (double)recipeAreaTop && mouseY < (double)(recipeAreaTop + 54)) {
+                this.clickedOnSroll = true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 }
