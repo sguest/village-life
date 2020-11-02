@@ -83,7 +83,7 @@ public abstract class SingleItemRecipe implements IRecipe<IInventory> {
     public ItemStack getCraftingResult(IInventory inv) {
         return this.result.copy();
     }
-    
+
     public static class Serializer<T extends SingleItemRecipe> extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
         final SingleItemRecipe.Serializer.IRecipeFactory<T> factory;
         
@@ -91,6 +91,7 @@ public abstract class SingleItemRecipe implements IRecipe<IInventory> {
             this.factory = factory;
         }
         
+        @SuppressWarnings("deprecation") // This is just the implementation from the vanilla version, which has a deprecated reference
         public T read(ResourceLocation recipeId, JsonObject json) {
             String s = JSONUtils.getString(json, "group", "");
             Ingredient ingredient;

@@ -3,7 +3,6 @@ package sguest.villagelife.client.gui.screen.inventory;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
@@ -59,7 +58,6 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
 
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         this.renderBackground(matrixStack);
-        //RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
         int guiLeft = this.guiLeft;
         int guiTop = this.guiTop;
