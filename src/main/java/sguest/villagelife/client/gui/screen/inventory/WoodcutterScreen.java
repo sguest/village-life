@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import sguest.villagelife.inventory.container.WoodcutterContainer;
 import sguest.villagelife.item.crafting.WoodcuttingRecipe;
@@ -144,5 +145,32 @@ public class WoodcutterScreen extends ContainerScreen<WoodcutterContainer> {
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (this.clickedOnSroll && this.canScroll()) {
+            int scrollBarTop = this.guiTop + RECIPE_AREA_TOP;
+            int scrollBarBottom = scrollBarTop + 54;
+            this.sliderProgress = ((float)mouseY - (float)scrollBarTop - 7.5F) / ((float)(scrollBarBottom - scrollBarTop) - 15.0F);
+            this.sliderProgress = MathHelper.clamp(this.sliderProgress, 0.0F, 1.0F);
+            this.recipeIndexOffset = (int)((double)(this.sliderProgress * (float)this.getHiddenRows()) + 0.5D) * 4;
+            return true;
+        } else {
+            return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        }
+    }
+
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (this.canScroll()) {
+            int hiddenRows = this.getHiddenRows();
+            this.sliderProgress = (float)((double)this.sliderProgress - delta / (double)hiddenRows);
+            this.sliderProgress = MathHelper.clamp(this.sliderProgress, 0.0F, 1.0F);
+            this.recipeIndexOffset = (int)((double)(this.sliderProgress * (float)hiddenRows) + 0.5D) * 4;
+        }
+        return true;
+    }
+
+    protected int getHiddenRows() {
+        return (this.container.getRecipeList().size() + 4 - 1) / 4 - 3;
     }
 }
