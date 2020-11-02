@@ -145,3 +145,18 @@ publishing {
         }
     }
 }
+
+task generateRecipes(type: Exec) {
+    workingDir "$projectDir/buildscripts"
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine 'cmd', '/c', 'woodcutter_recipes.sh'
+    } else {
+        commandLine 'sh', '-c', 'woodcutter_recipes.sh'
+    }
+}
+
+build.dependsOn generateRecipes
+// I want to add these dependencies too, but they seem to break gradle. Can't figure out why.
+// For now, run generateRecipes manually on first setup or if recipes are changed.
+// runClient.dependsOn generateRecipes
+// runServer.dependsOn generateRecipes

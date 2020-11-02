@@ -16,3 +16,5 @@ run/
 .classpath
 
 bin/
+
+src/main/resources/data/villagelife/recipes/generated/

@@ -1,0 +1,8 @@
+{
+    "type": "villagelife:woodcutting",
+    "ingredient": {
+        "item": "minecraft:WOODTYPE_planks"
+    },
+    "result": "minecraft:WOODTYPE_stairs",
+    "count": 1
+}
