@@ -6,9 +6,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.client.ClientProxy;
+import sguest.villagelife.entity.merchant.villager.ModProfessions;
 import sguest.villagelife.inventory.container.ModContainerTypes;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.item.crafting.ModRecipeSerializers;
+import sguest.villagelife.village.ModPointOfInterestType;
 
 import static sguest.villagelife.VillageLife.MOD_ID;
 
@@ -24,6 +26,8 @@ public class VillageLife {
         ModItems.register();
         ModContainerTypes.register();
         ModRecipeSerializers.register();
+        ModPointOfInterestType.register();
+        ModProfessions.register();
     }
 
     public void setup(final FMLCommonSetupEvent event) {

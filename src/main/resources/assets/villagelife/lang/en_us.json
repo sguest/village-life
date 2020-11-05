@@ -2,5 +2,6 @@
     "block.villagelife.woodcutter": "Woodcutter",
     "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
     "container.villagelife.woodcutter": "Woodcutter",
-    "villagelife.jei.category.woodcutting": "Woodcutting"
+    "villagelife.jei.category.woodcutting": "Woodcutting",
+    "entity.minecraft.villager.villagelife.carpenter": "Carpenter"
 }
