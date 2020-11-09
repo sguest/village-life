@@ -11,14 +11,22 @@ import sguest.villagelife.inventory.container.ModContainerTypes;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.item.crafting.ModRecipeSerializers;
 import sguest.villagelife.village.ModPointOfInterestType;
+import sguest.villagelife.village.ModVillageBuildings;
 
 import static sguest.villagelife.VillageLife.MOD_ID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(MOD_ID)
 public class VillageLife {
     public static final String MOD_ID = "villagelife";
 
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+
+    public static Logger getLogger() {
+        return LogManager.getLogger(MOD_ID);
+    }
 
     public VillageLife() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -28,6 +36,7 @@ public class VillageLife {
         ModRecipeSerializers.register();
         ModPointOfInterestType.register();
         ModProfessions.register();
+        ModVillageBuildings.register();
     }
 
     public void setup(final FMLCommonSetupEvent event) {
