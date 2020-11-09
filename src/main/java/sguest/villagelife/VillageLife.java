@@ -41,5 +41,6 @@ public class VillageLife {
 
     public void setup(final FMLCommonSetupEvent event) {
         proxy.setup(event);
+        ModProfessions.setup();
     }
 }

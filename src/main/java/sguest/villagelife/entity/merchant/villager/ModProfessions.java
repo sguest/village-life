@@ -2,7 +2,9 @@ package sguest.villagelife.entity.merchant.villager;
 
 import com.google.common.collect.ImmutableSet;
 
+import net.minecraft.entity.ai.brain.task.GiveHeroGiftsTask;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,5 +19,9 @@ public class ModProfessions {
 
     public static void register() {
         PROFESSIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+    public static void setup() {
+        GiveHeroGiftsTask.GIFTS.put(CARPENTER.get(), new ResourceLocation(VillageLife.MOD_ID, "gameplay/hero_of_the_village/carpenter_gift"));
     }
 }
