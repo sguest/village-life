@@ -1,7 +1,6 @@
 package sguest.villagelife.village;
 
 import java.util.Collection;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
