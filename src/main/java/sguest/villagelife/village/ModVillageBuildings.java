@@ -26,7 +26,7 @@ public class ModVillageBuildings {
     // Big thanks to Immersive Engineering for being open source
     // never would have figured this out on my own
     public static void register() {
-        for (String villageType : new String[] {"plains", "savanna"/*, "desert", "snowy", "taiga"*/}) {
+        for (String villageType : new String[] {"plains", "savanna", "desert", "snowy", "taiga"}) {
             ResourceLocation villagePoolName = new ResourceLocation("village/" + villageType + "/houses");
             JigsawPattern oldPool = WorldGenRegistries.JIGSAW_POOL.getOrDefault(villagePoolName);
             List<JigsawPiece> oldBuildings = ImmutableList.of();
