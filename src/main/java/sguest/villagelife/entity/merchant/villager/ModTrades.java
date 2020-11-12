@@ -19,6 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import sguest.villagelife.VillageLife;
+import sguest.villagelife.item.ModItems;
 
 @Mod.EventBusSubscriber(modid = VillageLife.MOD_ID, bus = Bus.FORGE)
 public class ModTrades {
@@ -68,15 +69,15 @@ public class ModTrades {
             leaves.put(VillagerType.SWAMP, new ItemStack(Items.DARK_OAK_LEAVES, 14));
             leaves.put(VillagerType.JUNGLE, new ItemStack(Items.JUNGLE_LEAVES, 14));
             trades.get(3).add(biomeSelling(leaves, 1, 15, 10, false));
-            Map<VillagerType, ItemStack> doors = new HashMap<>();
-            doors.put(VillagerType.PLAINS, new ItemStack(Items.OAK_DOOR, 1));
-            doors.put(VillagerType.DESERT, new ItemStack(Items.JUNGLE_DOOR, 1));
-            doors.put(VillagerType.SAVANNA, new ItemStack(Items.ACACIA_DOOR, 1));
-            doors.put(VillagerType.SNOW, new ItemStack(Items.SPRUCE_DOOR, 1));
-            doors.put(VillagerType.TAIGA, new ItemStack(Items.SPRUCE_DOOR, 1));
-            doors.put(VillagerType.SWAMP, new ItemStack(Items.DARK_OAK_DOOR, 1));
-            doors.put(VillagerType.JUNGLE, new ItemStack(Items.JUNGLE_DOOR, 1));
-            trades.get(3).add(biomeSelling(doors, 1, 12, 15, false));
+            Map<VillagerType, ItemStack> reinforcedDoors = new HashMap<>();
+            reinforcedDoors.put(VillagerType.PLAINS, new ItemStack(ModItems.REINFORCED_OAK_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.DESERT, new ItemStack(ModItems.REINFORCED_JUNGLE_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.SAVANNA, new ItemStack(ModItems.REINFORCED_ACACIA_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.SNOW, new ItemStack(ModItems.REINFORCED_SPRUCE_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.TAIGA, new ItemStack(ModItems.REINFORCED_SPRUCE_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.SWAMP, new ItemStack(ModItems.REINFORCED_DARK_OAK_DOOR.get(), 1));
+            reinforcedDoors.put(VillagerType.JUNGLE, new ItemStack(ModItems.REINFORCED_JUNGLE_DOOR.get(), 1));
+            trades.get(3).add(biomeSelling(reinforcedDoors, 1, 12, 15, false));
 
             Map<VillagerType, ItemStack> strippedLogs = new HashMap<>();
             strippedLogs.put(VillagerType.PLAINS, new ItemStack(Items.STRIPPED_OAK_LOG, 3));
