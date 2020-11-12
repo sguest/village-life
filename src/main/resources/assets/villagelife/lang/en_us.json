@@ -1,7 +1,20 @@
 {
     "block.villagelife.woodcutter": "Woodcutter",
+    "block.villagelife.reinforced_oak_door": "Reinforced Oak Door",
+    "block.villagelife.reinforced_birch_door": "Reinforced Birch Door",
+    "block.villagelife.reinforced_spruce_door": "Reinforced Spruce Door",
+    "block.villagelife.reinforced_jungle_door": "Reinforced Jungle Door",
+    "block.villagelife.reinforced_acacia_door": "Reinforced Acacia Door",
+    "block.villagelife.reinforced_dark_oak_door": "Reinforced Dark Oak Door",
+    "block.villagelife.reinforced_crimson_door": "Reinforced Crimson Door",
+    "block.villagelife.reinforced_warped_door": "Reinforced Warped Door",
+    "block.villagelife.reinforced_door.tooltip": "Zombie-proof",
+
     "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
+
     "container.villagelife.woodcutter": "Woodcutter",
-    "villagelife.jei.category.woodcutting": "Woodcutting",
-    "entity.minecraft.villager.villagelife.carpenter": "Carpenter"
+
+    "entity.minecraft.villager.villagelife.carpenter": "Carpenter",
+
+    "villagelife.jei.category.woodcutting": "Woodcutting"
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_rh",
+  "textures": {
+    "top": "villagelife:block/reinforced_acacia_door_top",
+    "bottom": "minecraft:block/acacia_door_top"
+  }
+}

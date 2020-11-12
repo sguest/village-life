@@ -1,6 +1,7 @@
 package sguest.villagelife.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
@@ -18,10 +19,20 @@ import sguest.villagelife.VillageLife;
 public class ModBlocks {
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, VillageLife.MOD_ID);
     public static final RegistryObject<Block> WOODCUTTER = BLOCKS.register("woodcutter", () -> new WoodcutterBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> REINFORCED_OAK_DOOR = BLOCKS.register("reinforced_oak_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.OAK_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_BIRCH_DOOR = BLOCKS.register("reinforced_birch_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.BIRCH_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_SPRUCE_DOOR = BLOCKS.register("reinforced_spruce_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.SPRUCE_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_JUNGLE_DOOR = BLOCKS.register("reinforced_jungle_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.JUNGLE_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_ACACIA_DOOR = BLOCKS.register("reinforced_acacia_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.ACACIA_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_DARK_OAK_DOOR = BLOCKS.register("reinforced_dark_oak_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.DARK_OAK_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_CRIMSON_DOOR = BLOCKS.register("reinforced_crimson_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.CRIMSON_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
+    public static final RegistryObject<Block> REINFORCED_WARPED_DOOR = BLOCKS.register("reinforced_warped_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.WARPED_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
 
     @SubscribeEvent
     public static void onClientSetupEvent(FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(WOODCUTTER.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(REINFORCED_OAK_DOOR.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(REINFORCED_JUNGLE_DOOR.get(), RenderType.getTranslucent());
     }
 
     public static void register() {

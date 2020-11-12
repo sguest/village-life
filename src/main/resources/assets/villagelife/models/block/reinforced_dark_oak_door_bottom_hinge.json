@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/door_bottom_rh",
+  "textures": {
+    "bottom": "villagelife:block/reinforced_dark_oak_door_bottom"
+  }
+}

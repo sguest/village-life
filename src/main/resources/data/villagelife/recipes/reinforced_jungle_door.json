@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "B",
+        "D",
+        "B"
+    ],
+    "key": {
+        "B": {
+            "item": "minecraft:iron_bars"
+        },
+        "D": {
+            "item": "minecraft:jungle_door"
+        }
+    },
+    "result": {
+        "item": "villagelife:reinforced_jungle_door"
+    }
+}
