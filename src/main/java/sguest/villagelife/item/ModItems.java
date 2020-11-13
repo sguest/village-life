@@ -22,6 +22,7 @@ public class ModItems {
     public static final RegistryObject<Item> REINFORCED_DARK_OAK_DOOR = ITEMS.register("reinforced_dark_oak_door", () -> new TallBlockItem(ModBlocks.REINFORCED_DARK_OAK_DOOR.get(), (new Item.Properties()).group(ItemGroup.REDSTONE)));
     public static final RegistryObject<Item> REINFORCED_CRIMSON_DOOR = ITEMS.register("reinforced_crimson_door", () -> new TallBlockItem(ModBlocks.REINFORCED_CRIMSON_DOOR.get(), (new Item.Properties()).group(ItemGroup.REDSTONE)));
     public static final RegistryObject<Item> REINFORCED_WARPED_DOOR = ITEMS.register("reinforced_warped_door", () -> new TallBlockItem(ModBlocks.REINFORCED_WARPED_DOOR.get(), (new Item.Properties()).group(ItemGroup.REDSTONE)));
+    public static final RegistryObject<Item> EMERALD_PRESSURE_PLATE = ITEMS.register("emerald_pressure_plate", () -> new BlockItem(ModBlocks.EMERALD_PRESSURE_PLATE.get(), new Item.Properties().group(ItemGroup.REDSTONE)));
 
     public static void register() {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
