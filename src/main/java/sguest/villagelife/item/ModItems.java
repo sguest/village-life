@@ -1,8 +1,15 @@
 package sguest.villagelife.item;
 
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.TallBlockItem;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,8 +30,19 @@ public class ModItems {
     public static final RegistryObject<Item> REINFORCED_CRIMSON_DOOR = ITEMS.register("reinforced_crimson_door", () -> new TallBlockItem(ModBlocks.REINFORCED_CRIMSON_DOOR.get(), (new Item.Properties()).group(ItemGroup.REDSTONE)));
     public static final RegistryObject<Item> REINFORCED_WARPED_DOOR = ITEMS.register("reinforced_warped_door", () -> new TallBlockItem(ModBlocks.REINFORCED_WARPED_DOOR.get(), (new Item.Properties()).group(ItemGroup.REDSTONE)));
     public static final RegistryObject<Item> EMERALD_PRESSURE_PLATE = ITEMS.register("emerald_pressure_plate", () -> new BlockItem(ModBlocks.EMERALD_PRESSURE_PLATE.get(), new Item.Properties().group(ItemGroup.REDSTONE)));
+    public static final RegistryObject<Item> EMERALD_SWORD = ITEMS.register("emerald_sword", () -> new SwordItem(ModItemTier.EMERALD, 3, -2.4F, (new Item.Properties()).group(ItemGroup.COMBAT)));
+    public static final RegistryObject<Item> EMERALD_SHOVEL = ITEMS.register("emerald_shovel", () -> new ShovelItem(ModItemTier.EMERALD, 1.5F, -3.0F, (new Item.Properties()).group(ItemGroup.TOOLS)));
+    public static final RegistryObject<Item> EMERALD_PICKAXE = ITEMS.register("emerald_pickaxe", () -> new PickaxeItem(ModItemTier.EMERALD, 1, -2.8F, (new Item.Properties()).group(ItemGroup.TOOLS)));
+    public static final RegistryObject<Item> EMERALD_AXE = ITEMS.register("emerald_axe", () -> new AxeItem(ModItemTier.EMERALD, 5.0F, -3.0F, (new Item.Properties()).group(ItemGroup.TOOLS)));
+    public static final RegistryObject<Item> EMERALD_HOE = ITEMS.register("emerald_hoe", () -> new HoeItem(ModItemTier.EMERALD, -3, 0.0F, (new Item.Properties()).group(ItemGroup.TOOLS)));
+    public static final RegistryObject<Item> EMERALD_HELMET = ITEMS.register("emerald_helmet", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.HEAD, (new Item.Properties()).group(ItemGroup.COMBAT)));
+    public static final RegistryObject<Item> EMERALD_CHESTPLATE = ITEMS.register("emerald_chestplate", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.CHEST, (new Item.Properties()).group(ItemGroup.COMBAT)));
+    public static final RegistryObject<Item> EMERALD_LEGGINGS = ITEMS.register("emerald_leggings", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.LEGS, (new Item.Properties()).group(ItemGroup.COMBAT)));
+    public static final RegistryObject<Item> EMERALD_BOOTS = ITEMS.register("emerald_boots", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.FEET, (new Item.Properties()).group(ItemGroup.COMBAT)));
 
     public static void register() {
+        ModItemTier.register();
+        ModArmorMaterial.register();
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 }

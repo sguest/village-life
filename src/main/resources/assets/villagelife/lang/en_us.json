@@ -11,6 +11,16 @@
     "block.villagelife.reinforced_door.tooltip": "Zombie-proof",
     "block.villagelife.emerald_pressure_plate": "Emerald Pressure Plate",
 
+    "item.villagelife.emerald_sword": "Emerald Sword",
+    "item.villagelife.emerald_shovel": "Emerald Shovel",
+    "item.villagelife.emerald_pickaxe": "Emerald Pickaxe",
+    "item.villagelife.emerald_axe": "Emerald Axe",
+    "item.villagelife.emerald_hoe": "Emerald Hoe",
+    "item.villagelife.emerald_helmet": "Emerald Helmet",
+    "item.villagelife.emerald_chestplate": "Emerald Chestplate",
+    "item.villagelife.emerald_leggings": "Emerald Leggings",
+    "item.villagelife.emerald_boots": "Emerald Boots",
+
     "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
 
     "container.villagelife.woodcutter": "Woodcutter",

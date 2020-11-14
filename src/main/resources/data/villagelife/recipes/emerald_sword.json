@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "E",
+        "E",
+        "S"
+    ],
+    "key": {
+        "E": {
+            "tag": "forge:gems/emerald"
+        },
+        "S": {
+            "tag": "forge:rods/wooden"
+        }
+    },
+    "result": {
+        "item": "villagelife:emerald_sword"
+    }
+}
