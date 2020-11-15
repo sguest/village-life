@@ -28,7 +28,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sguest.villagelife.tileentity.KegTileEntity;
-import sguest.villagelife.tileentity.KegTileEntity.FluidType;
 import sguest.villagelife.util.ItemUtil;
 
 public class KegBlock extends Block {
@@ -145,6 +144,11 @@ public class KegBlock extends Block {
                         resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
                     }
                     break;
+                case HONEY:
+                    if(kegTileEntity.removeFluid(1)) {
+                        resultItem = new ItemStack(Items.HONEY_BOTTLE);
+                    }
+                    break;
                 case POTION:
                     Potion potion = kegTileEntity.getPotionType();
                     if(kegTileEntity.removeFluid(1)) {
@@ -176,6 +180,11 @@ public class KegBlock extends Block {
                 if(kegTileEntity.addPotion(1, potion)) {
                     resultItem = new ItemStack(Items.GLASS_BOTTLE);
                 }
+            }
+        }
+        else if(heldItem == Items.HONEY_BOTTLE) {
+            if(kegTileEntity.addHoney(1)) {
+                resultItem = new ItemStack(Items.GLASS_BOTTLE);
             }
         }
 

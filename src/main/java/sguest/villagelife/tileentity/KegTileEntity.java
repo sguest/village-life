@@ -12,7 +12,7 @@ public class KegTileEntity extends TileEntity {
         WATER,
         POTION,
         MILK,
-        STEW,
+        HONEY,
     }
 
     public static final int CAPACITY = 30;
@@ -44,6 +44,10 @@ public class KegTileEntity extends TileEntity {
 
     public boolean addMilk(int amount) {
         return addFluid(amount, FluidType.MILK);
+    }
+
+    public boolean addHoney(int amount) {
+        return addFluid(amount, FluidType.HONEY);
     }
 
     public boolean addPotion(int amount, Potion potionTypeIn) {
@@ -105,12 +109,8 @@ public class KegTileEntity extends TileEntity {
             fluidLevel = nbt.getInt("Level");
         }
 
-        switch(fluidType) {
-            case POTION:
-                potionType = Potion.getPotionTypeForName(nbt.getString("Potion"));
-                break;
-            default:
-                break;
+        if(fluidType == FluidType.POTION) {
+            potionType = Potion.getPotionTypeForName(nbt.getString("Potion"));
         }
     }
 
@@ -120,12 +120,8 @@ public class KegTileEntity extends TileEntity {
         compound.putString("Type", fluidType.name());
         compound.putInt("Level", fluidLevel);
 
-        switch(fluidType) {
-            case POTION:
-                compound.putString("Potion", potionType.getRegistryName().toString());
-                break;
-            default:
-                break;
+        if(fluidType == FluidType.POTION) {
+            compound.putString("Potion", potionType.getRegistryName().toString());
         }
 
         return compound;
