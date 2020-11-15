@@ -102,6 +102,29 @@ public class KegBlock extends Block {
         return state.rotate(mirrorIn.toRotation(state.get(FACING)));
     }
 
+    /**
+    * @deprecated call via {@link IBlockState#hasComparatorInputOverride()} whenever possible. Implementing/overriding
+    * is fine.
+    */
+    @Override
+    public boolean hasComparatorInputOverride(BlockState state) {
+        return true;
+    }
+
+    /**
+      * @deprecated call via {@link IBlockState#getComparatorInputOverride(World,BlockPos)} whenever possible.
+      * Implementing/overriding is fine.
+      */
+    @Override
+    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if(!(tileEntity instanceof KegTileEntity)) {
+            return 0;
+        }
+        KegTileEntity kegTileEntity = (KegTileEntity)tileEntity;
+        return Math.floorDiv(kegTileEntity.getFluidLevel() * 15, KegTileEntity.CAPACITY);
+    }
+
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if(world.isRemote) {
