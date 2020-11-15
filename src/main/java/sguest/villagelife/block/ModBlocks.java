@@ -29,6 +29,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> REINFORCED_CRIMSON_DOOR = BLOCKS.register("reinforced_crimson_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.CRIMSON_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
     public static final RegistryObject<Block> REINFORCED_WARPED_DOOR = BLOCKS.register("reinforced_warped_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.WARPED_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
     public static final RegistryObject<Block> EMERALD_PRESSURE_PLATE = BLOCKS.register("emerald_pressure_plate", () -> new EmeraldPressurePlateBlock(Block.Properties.create(Material.IRON, MaterialColor.EMERALD).setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> KEG = BLOCKS.register("keg", () -> new KegBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)));
 
     @SubscribeEvent
     public static void onClientSetupEvent(FMLClientSetupEvent event) {

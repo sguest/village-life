@@ -1,0 +1,71 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/barrel_bottom",
+    "front": "minecraft:block/barrel_top",
+    "back": "minecraft:block/barrel_bottom",
+    "side": "minecraft:block/barrel_side"
+  },
+  "elements": [
+    {
+      "from": [1, 1, 0],
+      "to": [15, 15, 16],
+      "faces": {
+        "north": { "texture": "#front", "cullface": "north" },
+        "south": { "texture": "#back", "cullface": "south" },
+        "east": { "texture": "#side", "rotation": 90 },
+        "west": { "texture": "#side", "rotation": 90 },
+        "up": { "texture": "#side" },
+        "down": { "texture": "#side" }
+      }
+    },
+    {
+      "from": [0, 0, 1],
+      "to": [3, 3, 3],
+      "faces": {
+        "north": { "texture": "#back" },
+        "south": { "texture": "#back" },
+        "east": { "texture": "#back" },
+        "west": { "texture": "#back", "cullface": "west" },
+        "up": { "texture": "#back" },
+        "down": { "texture": "#back", "cullface": "down" }
+      }
+    },
+    {
+      "from": [13, 0, 1],
+      "to": [16, 3, 3],
+      "faces": {
+        "north": { "texture": "#back" },
+        "south": { "texture": "#back" },
+        "east": { "texture": "#back" },
+        "west": { "texture": "#back", "cullface": "west" },
+        "up": { "texture": "#back" },
+        "down": { "texture": "#back", "cullface": "down" }
+      }
+    },
+    {
+      "from": [0, 0, 13],
+      "to": [3, 3, 15],
+      "faces": {
+        "north": { "texture": "#back" },
+        "south": { "texture": "#back" },
+        "east": { "texture": "#back", "cullface": "east" },
+        "west": { "texture": "#back" },
+        "up": { "texture": "#back" },
+        "down": { "texture": "#back", "cullface": "down" }
+      }
+    },
+    {
+      "from": [13, 0, 13],
+      "to": [16, 3, 15],
+      "faces": {
+        "north": { "texture": "#back" },
+        "south": { "texture": "#back" },
+        "east": { "texture": "#back", "cullface": "east" },
+        "west": { "texture": "#back" },
+        "up": { "texture": "#back" },
+        "down": { "texture": "#back", "cullface": "down" }
+      }
+    }
+  ]
+}

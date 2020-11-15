@@ -10,6 +10,7 @@ import sguest.villagelife.entity.merchant.villager.ModProfessions;
 import sguest.villagelife.inventory.container.ModContainerTypes;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.item.crafting.ModRecipeSerializers;
+import sguest.villagelife.tileentity.ModTileEntities;
 import sguest.villagelife.village.ModPointOfInterestType;
 import sguest.villagelife.village.ModVillageBuildings;
 
@@ -37,6 +38,7 @@ public class VillageLife {
         ModPointOfInterestType.register();
         ModProfessions.register();
         ModVillageBuildings.register();
+        ModTileEntities.register();
     }
 
     public void setup(final FMLCommonSetupEvent event) {
