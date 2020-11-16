@@ -207,12 +207,14 @@ public class KegBlock extends Block {
                     if(kegTileEntity.removeFluid(3)) {
                         resultItem = new ItemStack(Items.MILK_BUCKET);
                         world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 case WATER:
                     if(kegTileEntity.removeFluid(3)) {
                         resultItem = new ItemStack(Items.WATER_BUCKET);
                         world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 default:
@@ -225,18 +227,21 @@ public class KegBlock extends Block {
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
                         world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 case HONEY:
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = new ItemStack(Items.HONEY_BOTTLE);
                         world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 case MILK:
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = new ItemStack(ModItems.MILK_BOTTLE.get());
                         world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 case POTION:
@@ -244,6 +249,7 @@ public class KegBlock extends Block {
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), potion);
                         world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.USE_KEG);
                     }
                     break;
                 default:
@@ -254,12 +260,14 @@ public class KegBlock extends Block {
             if(kegTileEntity.addWater(3)) {
                 resultItem = new ItemStack(Items.BUCKET);
                 world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
             }
         }
         else if(heldItem == Items.MILK_BUCKET) {
             if(kegTileEntity.addMilk(3)) {
                 resultItem = new ItemStack(Items.BUCKET);
                 world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
             }
         }
         else if(heldItem == Items.POTION || heldItem == Items.SPLASH_POTION || heldItem == Items.LINGERING_POTION) {
@@ -268,12 +276,14 @@ public class KegBlock extends Block {
                 if(kegTileEntity.addWater(1)) {
                     resultItem = new ItemStack(Items.GLASS_BOTTLE);
                     world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    player.addStat(ModStats.FILL_KEG);
                 }
             }
             else {
                 if(kegTileEntity.addPotion(1, potion)) {
                     resultItem = new ItemStack(Items.GLASS_BOTTLE);
                     world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    player.addStat(ModStats.FILL_KEG);
                 }
             }
         }
@@ -281,12 +291,14 @@ public class KegBlock extends Block {
             if(kegTileEntity.addHoney(1)) {
                 resultItem = new ItemStack(Items.GLASS_BOTTLE);
                 world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
             }
         }
         else if(heldItem == ModItems.MILK_BOTTLE.get()) {
             if(kegTileEntity.addMilk(1)) {
                 resultItem = new ItemStack(Items.GLASS_BOTTLE);
                 world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
             }
         }
         else {
@@ -296,6 +308,7 @@ public class KegBlock extends Block {
                         ItemStack cureStack = new ItemStack(Items.MILK_BUCKET);
                         player.curePotionEffects(cureStack);
                         world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.DRINK_FROM_KEG);
                     }
                     break;
                 case HONEY:
@@ -304,6 +317,7 @@ public class KegBlock extends Block {
                         player.removePotionEffect(Effects.POISON);
                         player.onFoodEaten(world, eatStack);
                         world.playSound(null, pos, SoundEvents.ITEM_HONEY_BOTTLE_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.DRINK_FROM_KEG);
                     }
                     break;
                 case POTION:
@@ -316,6 +330,7 @@ public class KegBlock extends Block {
                             }
                         }
                         world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        player.addStat(ModStats.DRINK_FROM_KEG);
                     }
                 default:
                     break;
@@ -330,7 +345,6 @@ public class KegBlock extends Block {
             else {
                 ItemUtil.giveToPlayer(player, resultItem);
             }
-            player.addStat(ModStats.INTERACT_WITH_KEG);
             return ActionResultType.SUCCESS;
         }
 

@@ -18,14 +18,18 @@ import java.util.Locale;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModStats {
     public static ResourceLocation INTERACT_WITH_WOODCUTTER = null;
-    public static ResourceLocation INTERACT_WITH_KEG = null;
+    public static ResourceLocation USE_KEG = null;
+    public static ResourceLocation FILL_KEG = null;
+    public static ResourceLocation DRINK_FROM_KEG = null;
 
     private static IStatFormatter integerFormatter = NumberFormat.getIntegerInstance(Locale.US)::format;
 
     @SubscribeEvent
     public static void onStatTypeRegistry(final RegistryEvent.Register<StatType<?>> event) {
         INTERACT_WITH_WOODCUTTER = registerCustom("interact_with_woodcutter", integerFormatter);
-        INTERACT_WITH_KEG = registerCustom("interact_with_keg", integerFormatter);
+        USE_KEG = registerCustom("use_keg", integerFormatter);
+        FILL_KEG = registerCustom("fill_keg", integerFormatter);
+        DRINK_FROM_KEG = registerCustom("drink_from_keg", integerFormatter);
     }
 
     private static ResourceLocation registerCustom(String key, IStatFormatter formatter) {

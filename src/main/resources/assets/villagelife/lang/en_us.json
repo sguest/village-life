@@ -28,7 +28,9 @@
     "item.villagelife.milk_bottle": "Milk Bottle",
 
     "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
-    "stat.villagelife.interact_with_keg": "Interactions with Keg",
+    "stat.villagelife.use_keg": "Items Filled from Keg",
+    "stat.villagelife.fill_keg": "Kegs Filled",
+    "stat.villagelife.drink_from_keg": "Drinks from Keg",
 
     "container.villagelife.woodcutter": "Woodcutter",
 
