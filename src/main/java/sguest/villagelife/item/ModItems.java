@@ -42,7 +42,7 @@ public class ModItems {
     public static final RegistryObject<Item> EMERALD_LEGGINGS = ITEMS.register("emerald_leggings", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.LEGS, (new Item.Properties()).group(ItemGroup.COMBAT)));
     public static final RegistryObject<Item> EMERALD_BOOTS = ITEMS.register("emerald_boots", () -> new ArmorItem(ModArmorMaterial.EMERALD, EquipmentSlotType.FEET, (new Item.Properties()).group(ItemGroup.COMBAT)));
     public static final RegistryObject<Item> EMERALD_HORSE_ARMOR = ITEMS.register("emerald_horse_armor", () -> new HorseArmorItem(8, new ResourceLocation(VillageLife.MOD_ID, "textures/entity/horse/armor/horse_armor_emerald.png"), (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC)));
-    public static final RegistryObject<Item> KEG = ITEMS.register("keg", () -> new BlockItem(ModBlocks.KEG.get(), (new Item.Properties()).maxStackSize(1).group(ItemGroup.DECORATIONS)));
+    public static final RegistryObject<Item> KEG = ITEMS.register("keg", () -> new BlockItem(ModBlocks.KEG.get(), (new Item.Properties()).group(ItemGroup.DECORATIONS)));
 
     public static void register() {
         ModItemTier.register();
