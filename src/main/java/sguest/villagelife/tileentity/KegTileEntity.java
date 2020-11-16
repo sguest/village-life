@@ -94,9 +94,10 @@ public class KegTileEntity extends TileEntity {
 
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
+        CompoundNBT kegData = nbt.getCompound("Contents");
 
         try {
-            fluidType = FluidType.valueOf(nbt.getString("Type"));
+            fluidType = FluidType.valueOf(kegData.getString("Type"));
         }
         catch(IllegalArgumentException ex) {
             fluidType = FluidType.EMPTY;
@@ -106,23 +107,26 @@ public class KegTileEntity extends TileEntity {
             fluidLevel = 0;
         }
         else {
-            fluidLevel = nbt.getInt("Level");
+            fluidLevel = kegData.getInt("Level");
         }
 
         if(fluidType == FluidType.POTION) {
-            potionType = Potion.getPotionTypeForName(nbt.getString("Potion"));
+            potionType = Potion.getPotionTypeForName(kegData.getString("Potion"));
         }
     }
 
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
+        CompoundNBT kegData = new CompoundNBT();
 
-        compound.putString("Type", fluidType.name());
-        compound.putInt("Level", fluidLevel);
+        kegData.putString("Type", fluidType.name());
+        kegData.putInt("Level", fluidLevel);
 
         if(fluidType == FluidType.POTION) {
-            compound.putString("Potion", potionType.getRegistryName().toString());
+            kegData.putString("Potion", potionType.getRegistryName().toString());
         }
+
+        compound.put("Contents", kegData);
 
         return compound;
     }

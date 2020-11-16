@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
@@ -125,6 +126,17 @@ public class KegBlock extends Block {
         }
         KegTileEntity kegTileEntity = (KegTileEntity)tileEntity;
         return Math.floorDiv(kegTileEntity.getFluidLevel() * 15, KegTileEntity.CAPACITY);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (stack.hasTag()) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if((tileEntity instanceof KegTileEntity)) {
+                KegTileEntity kegTileEntity = (KegTileEntity)tileEntity;
+                kegTileEntity.read(state, stack.getTag());
+            }
+        }
     }
 
     @Override
