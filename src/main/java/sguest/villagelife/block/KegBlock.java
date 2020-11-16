@@ -36,6 +36,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sguest.villagelife.item.ModItems;
+import sguest.villagelife.stats.ModStats;
 import sguest.villagelife.tileentity.KegTileEntity;
 import sguest.villagelife.tileentity.KegTileEntity.FluidType;
 import sguest.villagelife.util.ItemUtil;
@@ -294,6 +295,7 @@ public class KegBlock extends Block {
             else {
                 ItemUtil.giveToPlayer(player, resultItem);
             }
+            player.addStat(ModStats.INTERACT_WITH_KEG);
             return ActionResultType.SUCCESS;
         }
 
