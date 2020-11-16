@@ -92,8 +92,7 @@ public class KegTileEntity extends TileEntity {
         return true;
     }
 
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void readOwnData(CompoundNBT nbt) {
         CompoundNBT kegData = nbt.getCompound("Contents");
 
         try {
@@ -113,6 +112,11 @@ public class KegTileEntity extends TileEntity {
         if(fluidType == FluidType.POTION) {
             potionType = Potion.getPotionTypeForName(kegData.getString("Potion"));
         }
+    }
+
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
+        readOwnData(nbt);
     }
 
     public CompoundNBT write(CompoundNBT compound) {

@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import sguest.villagelife.util.TextUtil;
 
 public class ReinforcedDoorBlock extends DoorBlock {
 
@@ -31,8 +31,6 @@ public class ReinforcedDoorBlock extends DoorBlock {
     @Override
     public void addInformation(ItemStack itemStack, IBlockReader world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
-        TranslationTextComponent text = new TranslationTextComponent("block.villagelife.reinforced_door.tooltip");
-        text.setStyle(text.getStyle().applyFormatting(TextFormatting.DARK_GRAY));
-        list.add(text);
+        list.add(TextUtil.styledTranslation("block.villagelife.reinforced_door.tooltip", TextFormatting.DARK_GRAY));
     }
 }

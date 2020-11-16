@@ -1,9 +1,12 @@
 package sguest.villagelife.block;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -28,10 +31,14 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sguest.villagelife.tileentity.KegTileEntity;
+import sguest.villagelife.tileentity.KegTileEntity.FluidType;
 import sguest.villagelife.util.ItemUtil;
+import sguest.villagelife.util.TextUtil;
 
 public class KegBlock extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
@@ -138,6 +145,37 @@ public class KegBlock extends Block {
             }
         }
     }
+
+    @Override
+    public void addInformation(ItemStack stack, IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        super.addInformation(stack, world, tooltip, flag);
+        KegTileEntity tileEntity = new KegTileEntity();
+        if(stack.hasTag()) {
+            tileEntity.readOwnData(stack.getTag());
+            switch(tileEntity.getFluidType()) {
+                case WATER:
+                    tooltip.add(TextUtil.styledTranslation("block.minecraft.water", TextFormatting.AQUA));
+                    break;
+                case MILK:
+                    tooltip.add(TextUtil.styledTranslation("block.villagelife.keg.tooltip.milk", TextFormatting.WHITE));
+                    break;
+                case HONEY:
+                    tooltip.add(TextUtil.styledTranslation("block.villagelife.keg.tooltip.honey", TextFormatting.YELLOW));
+                    break;
+                case POTION:
+                    tooltip.add(TextUtil.styledTranslation("item.minecraft.potion", TextFormatting.DARK_PURPLE));
+                    PotionUtils.addPotionTooltip(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), tileEntity.getPotionType()), tooltip, 1.0F);
+                    break;
+                default:
+                    break;
+            }
+
+            if(tileEntity.getFluidType() != FluidType.EMPTY) {
+                tooltip.add(TextUtil.styledTranslation("block.villagelife.keg.tooltip.amount", TextFormatting.GRAY, tileEntity.getFluidLevel(), KegTileEntity.CAPACITY));
+            }
+        }
+    }
+
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
