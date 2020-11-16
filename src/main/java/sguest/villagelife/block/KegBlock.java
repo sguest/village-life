@@ -10,9 +10,12 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
@@ -284,6 +287,38 @@ public class KegBlock extends Block {
             if(kegTileEntity.addMilk(1)) {
                 resultItem = new ItemStack(Items.GLASS_BOTTLE);
                 world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+        }
+        else {
+            switch(kegTileEntity.getFluidType()) {
+                case MILK:
+                    if(kegTileEntity.removeFluid(1)) {
+                        ItemStack cureStack = new ItemStack(Items.MILK_BUCKET);
+                        player.curePotionEffects(cureStack);
+                        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
+                    break;
+                case HONEY:
+                    if(player.canEat(Foods.HONEY.canEatWhenFull()) && kegTileEntity.removeFluid(1)) {
+                        ItemStack eatStack = new ItemStack(Items.HONEY_BOTTLE);
+                        player.removePotionEffect(Effects.POISON);
+                        player.onFoodEaten(world, eatStack);
+                        world.playSound(null, pos, SoundEvents.ITEM_HONEY_BOTTLE_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
+                    break;
+                case POTION:
+                    if(kegTileEntity.removeFluid(1)) {
+                        for(EffectInstance effectinstance : kegTileEntity.getPotionType().getEffects()) {
+                            if (effectinstance.getPotion().isInstant()) {
+                                effectinstance.getPotion().affectEntity(player, player, player, effectinstance.getAmplifier(), 1.0D);
+                            } else {
+                                player.addPotionEffect(new EffectInstance(effectinstance));
+                            }
+                        }
+                        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
+                default:
+                    break;
             }
         }
 
