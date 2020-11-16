@@ -48,18 +48,18 @@ import sguest.villagelife.util.TextUtil;
 public class KegBlock extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     protected static final VoxelShape NS_SHAPE = VoxelShapes.or(
-        Block.makeCuboidShape(1.0D, 1.0D, 0.0D, 15.0D, 15.0D, 16.0D),
-        Block.makeCuboidShape(0.0D, 0.0D, 1.0D, 3.0D, 3.0D, 3.0D),
-        Block.makeCuboidShape(13.0D, 0.0D, 1.0D, 16.0D, 3.0D, 3.0D),
-        Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 3.0D, 3.0D, 15.0D),
-        Block.makeCuboidShape(13.0D, 0.0D, 13.0D, 16.0D, 3.0D, 15.0D)
+        Block.makeCuboidShape(1.0D, 3.0D, 0.0D, 15.0D, 16.0D, 16.0D),
+        Block.makeCuboidShape(0.0D, 0.0D, 1.0D, 5.0D, 5.0D, 4.0D),
+        Block.makeCuboidShape(11.0D, 0.0D, 1.0D, 16.0D, 5.0D, 4.0D),
+        Block.makeCuboidShape(0.0D, 0.0D, 12.0D, 5.0D, 5.0D, 15.0D),
+        Block.makeCuboidShape(11.0D, 0.0D, 12.0D, 16.0D, 5.0D, 15.0D)
     );
     protected static final VoxelShape EW_SHAPE = VoxelShapes.or(
-        Block.makeCuboidShape(0.0D, 1.0D, 1.0D, 16.0D, 15.0D, 15.0D),
-        Block.makeCuboidShape(1.0D, 0.0D, 0.0D, 3.0D, 3.0D, 3.0D),
-        Block.makeCuboidShape(1.0D, 0.0D, 13.0D, 3.0D, 3.0D, 16.0D),
-        Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 15.0D, 3.0D, 3.0D),
-        Block.makeCuboidShape(13.0D, 0.0D, 13.0D, 15.0D, 3.0D, 16.0D)
+        Block.makeCuboidShape(0.0D, 3.0D, 1.0D, 16.0D, 16.0D, 15.0D),
+        Block.makeCuboidShape(1.0D, 0.0D, 0.0D, 4.0D, 5.0D, 5.0D),
+        Block.makeCuboidShape(1.0D, 0.0D, 11.0D, 4.0D, 5.0D, 16.0D),
+        Block.makeCuboidShape(12.0D, 0.0D, 0.0D, 15.0D, 5.0D, 5.0D),
+        Block.makeCuboidShape(12.0D, 0.0D, 11.0D, 15.0D, 5.0D, 16.0D)
     );
 
     public KegBlock(Properties properties) {
