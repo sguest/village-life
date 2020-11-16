@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "villagelife:keg"
+        }
+    ],
+    "result": {
+        "item": "villagelife:keg"
+    }
+}
