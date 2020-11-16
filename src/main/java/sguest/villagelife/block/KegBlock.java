@@ -20,6 +20,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -149,11 +151,13 @@ public class KegBlock extends Block {
                 case MILK:
                     if(kegTileEntity.removeFluid(3)) {
                         resultItem = new ItemStack(Items.MILK_BUCKET);
+                        world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     break;
                 case WATER:
                     if(kegTileEntity.removeFluid(3)) {
                         resultItem = new ItemStack(Items.WATER_BUCKET);
+                        world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     break;
                 default:
@@ -165,17 +169,20 @@ public class KegBlock extends Block {
                 case WATER:
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
+                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     break;
                 case HONEY:
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = new ItemStack(Items.HONEY_BOTTLE);
+                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     break;
                 case POTION:
                     Potion potion = kegTileEntity.getPotionType();
                     if(kegTileEntity.removeFluid(1)) {
                         resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), potion);
+                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     }
                     break;
                 default:
@@ -185,11 +192,13 @@ public class KegBlock extends Block {
         else if(heldItem == Items.WATER_BUCKET) {
             if(kegTileEntity.addWater(3)) {
                 resultItem = new ItemStack(Items.BUCKET);
+                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
         else if(heldItem == Items.MILK_BUCKET) {
             if(kegTileEntity.addMilk(3)) {
                 resultItem = new ItemStack(Items.BUCKET);
+                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
         else if(heldItem == Items.POTION || heldItem == Items.SPLASH_POTION || heldItem == Items.LINGERING_POTION) {
@@ -197,17 +206,20 @@ public class KegBlock extends Block {
             if(potion == Potions.WATER) {
                 if(kegTileEntity.addWater(1)) {
                     resultItem = new ItemStack(Items.GLASS_BOTTLE);
+                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
             }
             else {
                 if(kegTileEntity.addPotion(1, potion)) {
                     resultItem = new ItemStack(Items.GLASS_BOTTLE);
+                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
             }
         }
         else if(heldItem == Items.HONEY_BOTTLE) {
             if(kegTileEntity.addHoney(1)) {
                 resultItem = new ItemStack(Items.GLASS_BOTTLE);
+                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
 
