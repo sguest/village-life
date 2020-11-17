@@ -93,6 +93,28 @@ public class ModTrades {
             trades.get(5).add(simpleSelling(new ItemStack(Items.CRIMSON_STEM, 2), 1, 12, 30, false));
             trades.get(5).add(simpleSelling(new ItemStack(Items.WARPED_STEM, 2), 1, 12, 30, false));
         }
+        else if(professionName == ModProfessions.INNKEEPER.get().getRegistryName()) {
+            trades.get(1).add(simpleBuying(new ItemStack(Items.POTATO, 26), 1, 16, 2 ,false));
+            trades.get(1).add(simpleBuying(new ItemStack(Items.BEETROOT, 15), 1, 16, 2 ,false));
+            trades.get(1).add(simpleBuying(new ItemStack(Items.BOWL, 20), 1, 16, 2 ,false));
+            trades.get(1).add(simpleSelling(new ItemStack(ModItems.MILK_BOTTLE.get(), 3), 1, 16, 1 ,false));
+
+            trades.get(2).add(simpleBuying(new ItemStack(Items.GLASS_BOTTLE, 7), 1, 16, 10 ,false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.BAKED_POTATO, 8), 1, 16, 10 ,false));
+
+            trades.get(3).add(simpleBuying(new ItemStack(Items.MUTTON, 7), 1, 16, 20 ,false));
+            trades.get(3).add(simpleBuying(new ItemStack(Items.BEEF, 10), 1, 16, 20 ,false));
+            trades.get(3).add(simpleBuying(new ItemStack(Items.PORKCHOP, 7), 1, 16, 20 ,false));
+
+            trades.get(4).add(simpleSelling(new ItemStack(Items.CAKE, 1), 1, 12, 15 ,false));
+            trades.get(4).add(simpleSelling(new ItemStack(Items.MUSHROOM_STEW, 1), 1, 12, 15 ,false));
+            trades.get(4).add(simpleSelling(new ItemStack(Items.BEETROOT_SOUP, 1), 1, 12, 15 ,false));
+            trades.get(4).add(simpleSelling(new ItemStack(Items.RABBIT_STEW, 1), 1, 12, 15 ,false));
+
+            trades.get(5).add(simpleSelling(new ItemStack(ModItems.STEAK_SANDWICH.get(), 3), 3, 12, 30 ,false));
+            trades.get(5).add(simpleSelling(new ItemStack(ModItems.PORK_SANDWICH.get(), 3), 3, 12, 30 ,false));
+            trades.get(5).add(simpleSelling(new ItemStack(ModItems.MUTTON_SANDWICH.get(), 3), 3, 12, 30 ,false));
+        }
     }
 
     private static VillagerTrade simpleSelling(ItemStack soldItem, int emeraldPrice, int numTrades, int xpValue, boolean highMultiplier) {
