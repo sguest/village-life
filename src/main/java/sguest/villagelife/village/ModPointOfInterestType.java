@@ -17,6 +17,7 @@ import sguest.villagelife.block.ModBlocks;
 public class ModPointOfInterestType {
     private static final DeferredRegister<PointOfInterestType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, VillageLife.MOD_ID);
     public static final RegistryObject<PointOfInterestType> CARPENTER = POI_TYPES.register("carpenter", () -> createPoiType("carpenter", ModBlocks.WOODCUTTER.get()));
+    public static final RegistryObject<PointOfInterestType> INNKEEPER = POI_TYPES.register("innkeeper", () -> createPoiType("inkeeper", ModBlocks.KEG.get()));
 
     private static PointOfInterestType createPoiType(String name, Collection<BlockState> blockStates) {
         PointOfInterestType poiType = new PointOfInterestType(name, ImmutableSet.copyOf(blockStates), 1, 1);

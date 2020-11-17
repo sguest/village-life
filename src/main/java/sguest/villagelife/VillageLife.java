@@ -53,6 +53,6 @@ public class VillageLife {
     }
 
     public void loadComplete(FMLLoadCompleteEvent event) {
-        DispenserOverrides.loadComplete();
+        DispenserOverrides.loadComplete(event);
     }
 }

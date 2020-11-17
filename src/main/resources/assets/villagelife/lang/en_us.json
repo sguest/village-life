@@ -35,6 +35,7 @@
     "container.villagelife.woodcutter": "Woodcutter",
 
     "entity.minecraft.villager.villagelife.carpenter": "Carpenter",
+    "entity.minecraft.villager.villagelife.innkeeper": "Innkeeper",
 
     "villagelife.jei.category.woodcutting": "Woodcutting"
 }

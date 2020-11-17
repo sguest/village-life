@@ -16,12 +16,15 @@ import sguest.villagelife.village.ModPointOfInterestType;
 public class ModProfessions {
     private static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, VillageLife.MOD_ID);
     public static final RegistryObject<VillagerProfession> CARPENTER = PROFESSIONS.register("carpenter", () -> new VillagerProfession("carpenter", ModPointOfInterestType.CARPENTER.get(), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.UI_STONECUTTER_TAKE_RESULT));
+    public static final RegistryObject<VillagerProfession> INNKEEPER = PROFESSIONS.register("innkeeper", () -> new VillagerProfession("innkeeper", ModPointOfInterestType.INNKEEPER.get(), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ITEM_BOTTLE_EMPTY));
 
     public static void register() {
         PROFESSIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     public static void setup() {
-        GiveHeroGiftsTask.GIFTS.put(CARPENTER.get(), new ResourceLocation(VillageLife.MOD_ID, "gameplay/hero_of_the_village/carpenter_gift"));
+        for (RegistryObject<VillagerProfession> profession : PROFESSIONS.getEntries()) {
+            GiveHeroGiftsTask.GIFTS.put(profession.get(), new ResourceLocation(VillageLife.MOD_ID, "gameplay/hero_of_the_village/" + profession.getId().getPath() + "_gift"));
+        }
     }
 }
