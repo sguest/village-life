@@ -13,10 +13,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import sguest.villagelife.tileentity.KegTileEntity;
 
 public class DispenserOverrides {
-    public static void loadComplete() {
+    public static void loadComplete(FMLLoadCompleteEvent event) {
+        event.enqueueWork(DispenserOverrides::applyOverrides);
+    }
+
+    private static void applyOverrides() {
         applyKegOverride(KegBlock.getValidItems());
     }
 
