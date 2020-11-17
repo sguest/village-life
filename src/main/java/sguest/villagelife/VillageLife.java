@@ -1,9 +1,12 @@
 package sguest.villagelife;
 
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import sguest.villagelife.block.DispenserOverrides;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.client.ClientProxy;
 import sguest.villagelife.entity.merchant.villager.ModProfessions;
@@ -30,7 +33,10 @@ public class VillageLife {
     }
 
     public VillageLife() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
+        bus.addListener(this::loadComplete);
+
         ModBlocks.register();
         ModItems.register();
         ModContainerTypes.register();
@@ -44,5 +50,9 @@ public class VillageLife {
     public void setup(final FMLCommonSetupEvent event) {
         proxy.setup(event);
         ModProfessions.setup();
+    }
+
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        DispenserOverrides.loadComplete();
     }
 }

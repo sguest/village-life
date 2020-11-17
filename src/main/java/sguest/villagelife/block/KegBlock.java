@@ -1,5 +1,6 @@
 package sguest.villagelife.block;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -16,9 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.potion.Potions;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -61,6 +60,20 @@ public class KegBlock extends Block {
         Block.makeCuboidShape(12.0D, 0.0D, 0.0D, 15.0D, 5.0D, 5.0D),
         Block.makeCuboidShape(12.0D, 0.0D, 11.0D, 15.0D, 5.0D, 16.0D)
     );
+
+    public static Item[] getValidItems() {
+        return new Item[] {
+            Items.GLASS_BOTTLE,
+            Items.BUCKET,
+            Items.WATER_BUCKET,
+            Items.MILK_BUCKET,
+            Items.POTION,
+            Items.SPLASH_POTION,
+            Items.LINGERING_POTION,
+            Items.HONEY_BOTTLE,
+            ModItems.MILK_BOTTLE.get()
+        };
+    }
 
     public KegBlock(Properties properties) {
         super(properties);
@@ -199,155 +212,75 @@ public class KegBlock extends Block {
         ItemStack heldStack = player.getHeldItem(hand);
         Item heldItem = heldStack.getItem();
 
-        ItemStack resultItem = ItemStack.EMPTY;
-
-        if(heldItem == Items.BUCKET) {
-            switch (kegTileEntity.getFluidType()) {
-                case MILK:
-                    if(kegTileEntity.removeFluid(3)) {
-                        resultItem = new ItemStack(Items.MILK_BUCKET);
-                        world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                case WATER:
-                    if(kegTileEntity.removeFluid(3)) {
-                        resultItem = new ItemStack(Items.WATER_BUCKET);
-                        world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        else if(heldItem == Items.GLASS_BOTTLE) {
-            switch(kegTileEntity.getFluidType()) {
-                case WATER:
-                    if(kegTileEntity.removeFluid(1)) {
-                        resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
-                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                case HONEY:
-                    if(kegTileEntity.removeFluid(1)) {
-                        resultItem = new ItemStack(Items.HONEY_BOTTLE);
-                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                case MILK:
-                    if(kegTileEntity.removeFluid(1)) {
-                        resultItem = new ItemStack(ModItems.MILK_BOTTLE.get());
-                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                case POTION:
-                    Potion potion = kegTileEntity.getPotionType();
-                    if(kegTileEntity.removeFluid(1)) {
-                        resultItem = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), potion);
-                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.USE_KEG);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        else if(heldItem == Items.WATER_BUCKET) {
-            if(kegTileEntity.addWater(3)) {
-                resultItem = new ItemStack(Items.BUCKET);
-                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                player.addStat(ModStats.FILL_KEG);
-            }
-        }
-        else if(heldItem == Items.MILK_BUCKET) {
-            if(kegTileEntity.addMilk(3)) {
-                resultItem = new ItemStack(Items.BUCKET);
-                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                player.addStat(ModStats.FILL_KEG);
-            }
-        }
-        else if(heldItem == Items.POTION || heldItem == Items.SPLASH_POTION || heldItem == Items.LINGERING_POTION) {
-            Potion potion = PotionUtils.getPotionFromItem(heldStack);
-            if(potion == Potions.WATER) {
-                if(kegTileEntity.addWater(1)) {
-                    resultItem = new ItemStack(Items.GLASS_BOTTLE);
-                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    player.addStat(ModStats.FILL_KEG);
-                }
+        ItemStack resultStack = kegTileEntity.useItem(heldStack);
+        Item resultItem = resultStack.getItem();
+        if(resultStack.isEmpty()) {
+            if(Arrays.asList(getValidItems()).contains(heldItem)) {
+                return ActionResultType.PASS;
             }
             else {
-                if(kegTileEntity.addPotion(1, potion)) {
-                    resultItem = new ItemStack(Items.GLASS_BOTTLE);
-                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    player.addStat(ModStats.FILL_KEG);
+                switch(kegTileEntity.getFluidType()) {
+                    case MILK:
+                        if(kegTileEntity.removeFluid(1)) {
+                            ItemStack cureStack = new ItemStack(Items.MILK_BUCKET);
+                            player.curePotionEffects(cureStack);
+                            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            player.addStat(ModStats.DRINK_FROM_KEG);
+                        }
+                        break;
+                    case HONEY:
+                        if(player.canEat(Foods.HONEY.canEatWhenFull()) && kegTileEntity.removeFluid(1)) {
+                            ItemStack eatStack = new ItemStack(Items.HONEY_BOTTLE);
+                            player.removePotionEffect(Effects.POISON);
+                            player.onFoodEaten(world, eatStack);
+                            world.playSound(null, pos, SoundEvents.ITEM_HONEY_BOTTLE_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            player.addStat(ModStats.DRINK_FROM_KEG);
+                        }
+                        break;
+                    case POTION:
+                        if(kegTileEntity.removeFluid(1)) {
+                            for(EffectInstance effectinstance : kegTileEntity.getPotionType().getEffects()) {
+                                if (effectinstance.getPotion().isInstant()) {
+                                    effectinstance.getPotion().affectEntity(player, player, player, effectinstance.getAmplifier(), 1.0D);
+                                } else {
+                                    player.addPotionEffect(new EffectInstance(effectinstance));
+                                }
+                            }
+                            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            player.addStat(ModStats.DRINK_FROM_KEG);
+                        }
+                    default:
+                        break;
                 }
-            }
-        }
-        else if(heldItem == Items.HONEY_BOTTLE) {
-            if(kegTileEntity.addHoney(1)) {
-                resultItem = new ItemStack(Items.GLASS_BOTTLE);
-                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                player.addStat(ModStats.FILL_KEG);
-            }
-        }
-        else if(heldItem == ModItems.MILK_BOTTLE.get()) {
-            if(kegTileEntity.addMilk(1)) {
-                resultItem = new ItemStack(Items.GLASS_BOTTLE);
-                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                player.addStat(ModStats.FILL_KEG);
+                return ActionResultType.SUCCESS;
             }
         }
         else {
-            switch(kegTileEntity.getFluidType()) {
-                case MILK:
-                    if(kegTileEntity.removeFluid(1)) {
-                        ItemStack cureStack = new ItemStack(Items.MILK_BUCKET);
-                        player.curePotionEffects(cureStack);
-                        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.DRINK_FROM_KEG);
-                    }
-                    break;
-                case HONEY:
-                    if(player.canEat(Foods.HONEY.canEatWhenFull()) && kegTileEntity.removeFluid(1)) {
-                        ItemStack eatStack = new ItemStack(Items.HONEY_BOTTLE);
-                        player.removePotionEffect(Effects.POISON);
-                        player.onFoodEaten(world, eatStack);
-                        world.playSound(null, pos, SoundEvents.ITEM_HONEY_BOTTLE_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.DRINK_FROM_KEG);
-                    }
-                    break;
-                case POTION:
-                    if(kegTileEntity.removeFluid(1)) {
-                        for(EffectInstance effectinstance : kegTileEntity.getPotionType().getEffects()) {
-                            if (effectinstance.getPotion().isInstant()) {
-                                effectinstance.getPotion().affectEntity(player, player, player, effectinstance.getAmplifier(), 1.0D);
-                            } else {
-                                player.addPotionEffect(new EffectInstance(effectinstance));
-                            }
-                        }
-                        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        player.addStat(ModStats.DRINK_FROM_KEG);
-                    }
-                default:
-                    break;
+            if(heldItem == Items.BUCKET) {
+                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.USE_KEG);
             }
-        }
+            else if(resultItem == Items.BUCKET) {
+                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
+            }
+            else if(heldItem == Items.GLASS_BOTTLE) {
+                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.USE_KEG);
+            }
+            else if(resultItem == Items.GLASS_BOTTLE) {
+                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                player.addStat(ModStats.FILL_KEG);
+            }
 
-        if(resultItem != ItemStack.EMPTY) {
             heldStack.shrink(1);
             if(heldStack.isEmpty()) {
-                player.setHeldItem(hand, resultItem);
+                player.setHeldItem(hand, resultStack);
             }
             else {
-                ItemUtil.giveToPlayer(player, resultItem);
+                ItemUtil.giveToPlayer(player, resultStack);
             }
             return ActionResultType.SUCCESS;
         }
-
-        return ActionResultType.PASS;
     }
 }

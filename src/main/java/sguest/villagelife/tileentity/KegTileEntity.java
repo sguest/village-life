@@ -1,10 +1,15 @@
 package sguest.villagelife.tileentity;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.tileentity.TileEntity;
+import sguest.villagelife.item.ModItems;
 
 public class KegTileEntity extends TileEntity {
     public static enum FluidType {
@@ -90,6 +95,86 @@ public class KegTileEntity extends TileEntity {
         }
         markDirty();
         return true;
+    }
+
+    public ItemStack useItem(ItemStack stack) {
+        Item item = stack.getItem();
+        if(item == Items.BUCKET) {
+            switch (fluidType) {
+                case MILK:
+                    if(removeFluid(3)) {
+                        return new ItemStack(Items.MILK_BUCKET);
+                    }
+                    break;
+                case WATER:
+                    if(removeFluid(3)) {
+                        return new ItemStack(Items.WATER_BUCKET);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(item == Items.GLASS_BOTTLE) {
+            switch(fluidType) {
+                case WATER:
+                    if(removeFluid(1)) {
+                        return PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
+                    }
+                    break;
+                case HONEY:
+                    if(removeFluid(1)) {
+                        return new ItemStack(Items.HONEY_BOTTLE);
+                    }
+                    break;
+                case MILK:
+                    if(removeFluid(1)) {
+                        return new ItemStack(ModItems.MILK_BOTTLE.get());
+                    }
+                    break;
+                case POTION:
+                    if(removeFluid(1)) {
+                        return PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), potionType);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(item == Items.WATER_BUCKET) {
+            if(addWater(3)) {
+                return new ItemStack(Items.BUCKET);
+            }
+        }
+        else if(item == Items.MILK_BUCKET) {
+            if(addMilk(3)) {
+                return new ItemStack(Items.BUCKET);
+            }
+        }
+        else if(item == Items.POTION || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION) {
+            Potion potion = PotionUtils.getPotionFromItem(stack);
+            if(potion == Potions.WATER) {
+                if(addWater(1)) {
+                    return new ItemStack(Items.GLASS_BOTTLE);
+                }
+            }
+            else {
+                if(addPotion(1, potion)) {
+                    return new ItemStack(Items.GLASS_BOTTLE);
+                }
+            }
+        }
+        else if(item == Items.HONEY_BOTTLE) {
+            if(addHoney(1)) {
+                return new ItemStack(Items.GLASS_BOTTLE);
+            }
+        }
+        else if(item == ModItems.MILK_BOTTLE.get()) {
+            if(addMilk(1)) {
+                return new ItemStack(Items.GLASS_BOTTLE);
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     public void readOwnData(CompoundNBT nbt) {
