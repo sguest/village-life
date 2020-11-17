@@ -45,6 +45,9 @@ public class ModItems {
     public static final RegistryObject<Item> EMERALD_HORSE_ARMOR = ITEMS.register("emerald_horse_armor", () -> new HorseArmorItem(8, new ResourceLocation(VillageLife.MOD_ID, "textures/entity/horse/armor/horse_armor_emerald.png"), (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC)));
     public static final RegistryObject<Item> KEG = ITEMS.register("keg", () -> new BlockItem(ModBlocks.KEG.get(), (new Item.Properties()).group(ItemGroup.DECORATIONS)));
     public static final RegistryObject<Item> MILK_BOTTLE = ITEMS.register("milk_bottle", () -> new MilkBottleItem((new Item.Properties()).containerItem(Items.GLASS_BOTTLE).group(ItemGroup.MISC).maxStackSize(16)));
+    public static final RegistryObject<Item> STEAK_SANDWICH = ITEMS.register("steak_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.STEAK_SANDWICH)));
+    public static final RegistryObject<Item> PORK_SANDWICH = ITEMS.register("pork_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.PORK_SANDWICH)));
+    public static final RegistryObject<Item> MUTTON_SANDWICH = ITEMS.register("mutton_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.MUTTON_SANDWICH)));
 
     public static void register() {
         ModItemTier.register();

@@ -26,6 +26,9 @@
     "item.villagelife.emerald_boots": "Emerald Boots",
     "item.villagelife.emerald_horse_armor": "Emerald Horse Armor",
     "item.villagelife.milk_bottle": "Milk Bottle",
+    "item.villagelife.steak_sandwich": "Steak Sandwich",
+    "item.villagelife.pork_sandwich": "Pork Sandwich",
+    "item.villagelife.mutton_sandwich": "Mutton Sandwich",
 
     "stat.villagelife.interact_with_woodcutter": "Interactions with Woodcutter",
     "stat.villagelife.use_keg": "Items Filled from Keg",
