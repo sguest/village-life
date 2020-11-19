@@ -41,7 +41,7 @@ public class ModVillageBuildings {
                 buildings.compute(piece, (p, i) -> (i == null ? 0 : i) + 1);
             }
 
-            for (String villager : new String[] {"carpenter"}) {
+            for (String villager : new String[] {"carpenter", "innkeeper"}) {
                 ResourceLocation buildingLocation = new ResourceLocation(VillageLife.MOD_ID, "village/" + villageType + "/houses/" + villageType + "_" + villager + "_house_1");
                 JigsawPiece newPiece = new LegacySingleJigsawPiece(Either.left(buildingLocation), () -> ProcessorLists.field_244101_a, PlacementBehaviour.RIGID);
                 buildings.put(newPiece, JIGSAW_WEIGHT);
