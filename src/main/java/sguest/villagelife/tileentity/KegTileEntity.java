@@ -1,10 +1,13 @@
 package sguest.villagelife.tileentity;
 
+import java.util.Random;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
@@ -89,10 +92,7 @@ public class KegTileEntity extends TileEntity {
         }
 
         fluidLevel -= amount;
-        if(fluidLevel == 0) {
-            fluidType = FluidType.EMPTY;
-            potionType = Potions.EMPTY;
-        }
+        checkEmpty();
         markDirty();
         return true;
     }
@@ -199,9 +199,56 @@ public class KegTileEntity extends TileEntity {
         }
     }
 
+    private void checkEmpty() {
+        if(fluidLevel == 0) {
+            fluidType = FluidType.EMPTY;
+            potionType = Potions.EMPTY;
+        }
+    }
+
+    private void fillRandomly(CompoundNBT nbt) {
+        Random rand = null;
+        if(this.world != null) {
+            rand = world.getRandom();
+        }
+        if(rand == null) {
+            rand = new Random();
+        }
+
+        ListNBT possibleTypes = nbt.getList("Types", 8);
+        String typeString = possibleTypes.getString(rand.nextInt(possibleTypes.size()));
+        try {
+            fluidType = FluidType.valueOf(typeString.toUpperCase());
+        }
+        catch(IllegalArgumentException ex) {
+            fluidType = FluidType.EMPTY;
+        }
+
+        if(fluidType == FluidType.POTION) {
+            ListNBT possiblePotions = nbt.getList("Potions", 8);
+            String potionString = possiblePotions.getString(rand.nextInt(possiblePotions.size()));
+            potionType = Potion.getPotionTypeForName(potionString);
+            if(potionType == Potions.EMPTY) {
+                fluidType = FluidType.EMPTY;
+            }
+        }
+
+        if(fluidType != FluidType.EMPTY) {
+            int minLevel = nbt.getInt("MinLevel");
+            int maxLevel = nbt.getInt("MaxLevel");
+            fluidLevel = rand.nextInt(maxLevel - minLevel) + minLevel;
+            checkEmpty();
+        }
+    }
+
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
-        readOwnData(nbt);
+        if(nbt.contains("RandomContents")) {
+            fillRandomly(nbt.getCompound("RandomContents"));
+        }
+        else {
+            readOwnData(nbt);
+        }
     }
 
     public CompoundNBT write(CompoundNBT compound) {
