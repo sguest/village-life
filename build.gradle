@@ -19,6 +19,17 @@ archivesBaseName = "${modid}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = "${java_version}" // Need this here so eclipse task generates correctly.
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = [
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+            ]
+        }
+    }
+}
+
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -75,7 +86,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'villagelife', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'villagelife', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 villagelife {
@@ -162,18 +173,3 @@ publishing {
         }
     }
 }
-
-task generateRecipes(type: Exec) {
-    workingDir "$projectDir/buildscripts"
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'cmd', '/c', 'woodcutter_recipes.sh'
-    } else {
-        commandLine 'sh', '-c', 'woodcutter_recipes.sh'
-    }
-}
-
-build.dependsOn generateRecipes
-// I want to add these dependencies too, but they seem to break gradle. Can't figure out why.
-// For now, run generateRecipes manually on first setup or if recipes are changed.
-// runClient.dependsOn generateRecipes
-// runServer.dependsOn generateRecipes

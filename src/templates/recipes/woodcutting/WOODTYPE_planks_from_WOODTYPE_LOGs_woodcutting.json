@@ -1,8 +1,0 @@
-{
-    "type": "villagelife:woodcutting",
-    "ingredient": {
-        "tag": "minecraft:WOODTYPE_LOGs"
-    },
-    "result": "minecraft:WOODTYPE_planks",
-    "count": 6
-}

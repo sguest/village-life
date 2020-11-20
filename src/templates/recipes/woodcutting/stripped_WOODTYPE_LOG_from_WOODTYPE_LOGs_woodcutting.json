@@ -1,8 +1,0 @@
-{
-    "type": "villagelife:woodcutting",
-    "ingredient": {
-        "tag": "minecraft:WOODTYPE_LOGs"
-    },
-    "result": "minecraft:stripped_WOODTYPE_LOG",
-    "count": 1
-}
