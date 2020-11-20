@@ -15,6 +15,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootParameterSets;
@@ -27,6 +28,7 @@ import net.minecraft.loot.functions.CopyName;
 import net.minecraft.loot.functions.CopyNbt;
 import net.minecraft.loot.functions.CopyNbt.Source;
 import net.minecraft.state.Property;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import sguest.villagelife.VillageLife;
@@ -37,7 +39,8 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     // Filled by subclasses
-    protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();
+    protected final Map<Block, LootTable.Builder> blockLootTables = new HashMap<>();
+    protected final Map<ResourceLocation, LootTable> lootTables = new HashMap<>();
 
     private final DataGenerator generator;
 
@@ -74,8 +77,21 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
                 .addEntry(itemLootEntryBuilder);
 
         LootTable.Builder tableBuilder = LootTable.builder().addLootPool(builder);
-        lootTables.put(block, tableBuilder);
+        blockLootTables.put(block, tableBuilder);
         return tableBuilder;
+    }
+
+    protected void addHeroGift(VillagerProfession profession, IItemProvider ... items) {
+        LootPool.Builder poolBuilder = LootPool.builder().rolls(new ConstantRange(1));
+
+        for(IItemProvider item : items) {
+            poolBuilder = poolBuilder.addEntry(ItemLootEntry.builder(item));
+        }
+
+        LootTable.Builder tableBuilder = LootTable.builder().addLootPool(poolBuilder);
+        ResourceLocation registryName = profession.getRegistryName();
+        ResourceLocation key = new ResourceLocation(registryName.getNamespace(), "gameplay/hero_of_the_village/" + registryName.getPath() + "_gift");
+        lootTables.put(key, tableBuilder.setParameterSet(LootParameterSets.GIFT).build());
     }
 
     protected ItemLootEntry.Builder<?> copyName(ItemLootEntry.Builder<?> builder) {
@@ -98,9 +114,10 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         addTables();
 
         Map<ResourceLocation, LootTable> tables = new HashMap<>();
-        for (Map.Entry<Block, LootTable.Builder> entry : lootTables.entrySet()) {
+        for (Map.Entry<Block, LootTable.Builder> entry : blockLootTables.entrySet()) {
             tables.put(entry.getKey().getLootTable(), entry.getValue().setParameterSet(LootParameterSets.BLOCK).build());
         }
+        tables.putAll(lootTables);
         writeTables(cache, tables);
     }
 
