@@ -6,6 +6,7 @@ import net.minecraft.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IDispenseItemBehavior;
 import net.minecraft.dispenser.OptionalDispenseBehavior;
+import net.minecraft.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.DispenserTileEntity;
@@ -14,6 +15,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import sguest.villagelife.item.ModItems;
 import sguest.villagelife.tileentity.KegTileEntity;
 
 public class DispenserOverrides {
@@ -23,6 +25,8 @@ public class DispenserOverrides {
 
     private static void applyOverrides() {
         applyKegOverride(KegBlock.getValidItems());
+
+        DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.put(ModItems.KEG.get(), new ShulkerBoxDispenseBehavior());
     }
 
     private static void applyKegOverride(Item ... items) {
