@@ -5,14 +5,13 @@ import java.util.function.Supplier;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
-import net.minecraft.util.ResourceLocation;
-import sguest.villagelife.util.TagUtil;
+import net.minecraftforge.common.Tags;
 
 public class ModItemTier implements IItemTier {
     public static IItemTier EMERALD;
 
     public static void register() {
-        EMERALD = new ModItemTier(3, 750, 7.0F, 2.5F, 22, () -> Ingredient.fromTag(TagUtil.getItemTag(new ResourceLocation("forge", "gems/emerald"))));
+        EMERALD = new ModItemTier(3, 750, 7.0F, 2.5F, 22, () -> Ingredient.fromTag(Tags.Items.GEMS_EMERALD));
     }
 
     private final int harvestLevel;

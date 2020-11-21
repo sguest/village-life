@@ -6,19 +6,18 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags;
 import sguest.villagelife.VillageLife;
-import sguest.villagelife.util.TagUtil;
 
 public class ModArmorMaterial implements IArmorMaterial {
     public static IArmorMaterial EMERALD;
 
     public static void register() {
-        EMERALD = new ModArmorMaterial("emerald", 25, new int[]{2, 5, 6, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, () -> Ingredient.fromTag(TagUtil.getItemTag(new ResourceLocation("forge", "gems/emerald"))), 1.0F, 0.0F);
+        EMERALD = new ModArmorMaterial("emerald", 25, new int[]{2, 5, 6, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, () -> Ingredient.fromTag(Tags.Items.GEMS_EMERALD), 1.0F, 0.0F);
     }
 
     private final String name;
