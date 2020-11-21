@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "villagelife:block/keg" },
-        "facing=south": { "model": "villagelife:block/keg", "y": 180 },
-        "facing=west": { "model": "villagelife:block/keg", "y": 270 },
-        "facing=east": { "model": "villagelife:block/keg", "y": 90 }
-    }
-}
