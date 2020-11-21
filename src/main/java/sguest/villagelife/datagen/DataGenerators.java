@@ -18,5 +18,6 @@ public class DataGenerators {
         BlockTagsProvider blockTags = new BlockTagsProvider(generator, fileHelper);
         generator.addProvider(blockTags);
         generator.addProvider(new ItemTagsProvider(generator, blockTags, fileHelper));
+        generator.addProvider(new ItemModels(generator, fileHelper));
     }
 }
