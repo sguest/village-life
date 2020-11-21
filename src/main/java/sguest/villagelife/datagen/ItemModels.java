@@ -66,6 +66,6 @@ public class ItemModels extends ItemModelProvider {
     private void block(RegistryObject<Block> block) {
         ResourceLocation id = block.getId();
         getBuilder(id.getPath())
-            .parent(getExistingFile(new ResourceLocation(id.getNamespace(), "block/" + id.getPath())));
+            .parent(new UncheckedModelFile(id.getNamespace() + ":block/" + id.getPath()));
     }
 }
