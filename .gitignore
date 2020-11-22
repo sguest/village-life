@@ -20,3 +20,5 @@ bin/
 src/main/resources/data/villagelife/recipes/generated/
 
 src/generated/
+
+logs/
