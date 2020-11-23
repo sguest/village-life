@@ -11,6 +11,8 @@
     "block.villagelife.reinforced_door.tooltip": "Zombie-proof",
     "block.villagelife.emerald_pressure_plate": "Emerald Pressure Plate",
     "block.villagelife.keg": "Keg",
+    "block.villagelife.trading_post": "Trading Post",
+
     "block.villagelife.keg.tooltip.milk": "Milk",
     "block.villagelife.keg.tooltip.honey": "Honey",
     "block.villagelife.keg.tooltip.amount": "%s of %s bottles",

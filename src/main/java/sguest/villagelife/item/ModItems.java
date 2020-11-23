@@ -48,6 +48,7 @@ public class ModItems {
     public static final RegistryObject<Item> STEAK_SANDWICH = ITEMS.register("steak_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.STEAK_SANDWICH)));
     public static final RegistryObject<Item> PORK_SANDWICH = ITEMS.register("pork_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.PORK_SANDWICH)));
     public static final RegistryObject<Item> MUTTON_SANDWICH = ITEMS.register("mutton_sandwich", () -> new Item((new Item.Properties()).group(ItemGroup.FOOD).food(ModFoods.MUTTON_SANDWICH)));
+    public static final RegistryObject<Item> TRADING_POST = ITEMS.register("trading_post", () -> new BlockItem(ModBlocks.TRADING_POST.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
     public static void register() {
         ModItemTier.register();

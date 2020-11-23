@@ -9,6 +9,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sguest.villagelife.block.DispenserOverrides;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.client.ClientProxy;
+import sguest.villagelife.entity.ai.ModMemoryModuleType;
+import sguest.villagelife.entity.ai.ModSensorType;
 import sguest.villagelife.entity.merchant.villager.ModProfessions;
 import sguest.villagelife.inventory.container.ModContainerTypes;
 import sguest.villagelife.item.ModItems;
@@ -19,18 +21,11 @@ import sguest.villagelife.village.ModVillageBuildings;
 
 import static sguest.villagelife.VillageLife.MOD_ID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 @Mod(MOD_ID)
 public class VillageLife {
     public static final String MOD_ID = "villagelife";
 
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
-    public static Logger getLogger() {
-        return LogManager.getLogger(MOD_ID);
-    }
 
     public VillageLife() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -45,11 +40,15 @@ public class VillageLife {
         ModProfessions.register();
         ModVillageBuildings.register();
         ModTileEntities.register();
+        ModSensorType.register();
+        ModMemoryModuleType.register();
     }
 
     public void setup(final FMLCommonSetupEvent event) {
         proxy.setup(event);
         ModProfessions.setup();
+        ModSensorType.setup();
+        ModMemoryModuleType.setup();
     }
 
     public void loadComplete(FMLLoadCompleteEvent event) {

@@ -46,6 +46,7 @@ public class ItemModels extends ItemModelProvider {
         block(ModBlocks.KEG);
         block(ModBlocks.WOODCUTTER);
         block(ModBlocks.EMERALD_PRESSURE_PLATE);
+        block(ModBlocks.TRADING_POST);
     }
 
     private void generated(RegistryObject<Item> item) {

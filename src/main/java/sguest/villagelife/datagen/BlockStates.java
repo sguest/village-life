@@ -80,6 +80,8 @@ public class BlockStates extends BlockStateProvider {
         horizontalBlock(ModBlocks.KEG.get(), blockModelBuilder);
 
         onOffPressurePlateBlock((AbstractPressurePlateBlock)ModBlocks.EMERALD_PRESSURE_PLATE.get(), mcLoc("block/emerald_block"));
+
+        simpleBlock(ModBlocks.TRADING_POST.get(), models().cubeAll(ModBlocks.TRADING_POST.getId().getPath(), mcLoc("block/glass")));
     }
 
     private void onOffPressurePlateBlock(AbstractPressurePlateBlock block, ResourceLocation texture) {

@@ -11,6 +11,7 @@ import sguest.villagelife.block.ModBlocks;
 public class ModTileEntities {
     private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, VillageLife.MOD_ID);
     public static final RegistryObject<TileEntityType<KegTileEntity>> KEG = TILE_ENTITIES.register("keg", () -> TileEntityType.Builder.create(KegTileEntity::new, ModBlocks.KEG.get()).build(null));
+    public static final RegistryObject<TileEntityType<TradingPostTileEntity>> TRADING_POST = TILE_ENTITIES.register("trading_post", () -> TileEntityType.Builder.create(TradingPostTileEntity::new, ModBlocks.TRADING_POST.get()).build(null));
 
     public static void register() {
         TILE_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
