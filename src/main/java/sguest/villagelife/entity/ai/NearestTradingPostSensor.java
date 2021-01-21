@@ -1,5 +1,7 @@
 package sguest.villagelife.entity.ai;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -12,11 +14,18 @@ import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.server.ServerWorld;
+import sguest.villagelife.tileentity.TradingPostTileEntity;
 import sguest.villagelife.village.ModPointOfInterestType;
 
 public class NearestTradingPostSensor extends Sensor<MobEntity> {
@@ -30,6 +39,15 @@ public class NearestTradingPostSensor extends Sensor<MobEntity> {
 
     @Override
     protected void update(ServerWorld worldIn, MobEntity entityIn) {
+        if(!(entityIn instanceof VillagerEntity)) {
+            return;
+        }
+        AbstractVillagerEntity villager = (AbstractVillagerEntity)entityIn;
+        MerchantOffers offers = villager.getOffers();
+        List<Item> soldItems = new ArrayList<>();
+        for(MerchantOffer offer : offers) {
+            soldItems.add(offer.getSellingStack().getItem());
+        }
         this.numFound = 0;
         this.persistTime = worldIn.getGameTime() + (long)worldIn.getRandom().nextInt(20);
         PointOfInterestManager pointOfInterestManager = worldIn.getPointOfInterestManager();
@@ -37,9 +55,19 @@ public class NearestTradingPostSensor extends Sensor<MobEntity> {
             long i = pos.toLong();
             if (this.positionToTimeMap.containsKey(i)) {
                 return false;
-            } else if (++this.numFound >= 5) {
+            }
+
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if(!(tileEntity instanceof TradingPostTileEntity)) {
                 return false;
-            } else {
+            }
+            else if(!soldItems.contains(((TradingPostTileEntity)tileEntity).getDisplayedItem().getItem())) {
+                return false;
+            }
+            else if (++this.numFound >= 5) {
+                return false;
+            }
+            else {
                 this.positionToTimeMap.put(i, this.persistTime + 40L);
                 return true;
             }
