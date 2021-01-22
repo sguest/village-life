@@ -21,9 +21,12 @@ import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import sguest.villagelife.tileentity.TradingPostTileEntity;
 import sguest.villagelife.village.ModPointOfInterestType;
@@ -38,26 +41,27 @@ public class NearestTradingPostSensor extends Sensor<MobEntity> {
     }
 
     @Override
-    protected void update(ServerWorld worldIn, MobEntity entityIn) {
-        if(!(entityIn instanceof VillagerEntity)) {
+    protected void update(ServerWorld world, MobEntity entity) {
+        if(!(entity instanceof VillagerEntity)) {
             return;
         }
-        AbstractVillagerEntity villager = (AbstractVillagerEntity)entityIn;
+        RegistryKey<World> dimensionKey = world.getDimensionKey();
+        AbstractVillagerEntity villager = (AbstractVillagerEntity)entity;
         MerchantOffers offers = villager.getOffers();
         List<Item> soldItems = new ArrayList<>();
         for(MerchantOffer offer : offers) {
             soldItems.add(offer.getSellingStack().getItem());
         }
         this.numFound = 0;
-        this.persistTime = worldIn.getGameTime() + (long)worldIn.getRandom().nextInt(20);
-        PointOfInterestManager pointOfInterestManager = worldIn.getPointOfInterestManager();
+        this.persistTime = world.getGameTime() + (long)world.getRandom().nextInt(20);
+        PointOfInterestManager pointOfInterestManager = world.getPointOfInterestManager();
         Predicate<BlockPos> predicate = (pos) -> {
             long i = pos.toLong();
             if (this.positionToTimeMap.containsKey(i)) {
                 return false;
             }
 
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if(!(tileEntity instanceof TradingPostTileEntity)) {
                 return false;
             }
@@ -72,13 +76,13 @@ public class NearestTradingPostSensor extends Sensor<MobEntity> {
                 return true;
             }
         };
-        Stream<BlockPos> stream = pointOfInterestManager.findAll(ModPointOfInterestType.TRADING_POST.get().getPredicate(), predicate, entityIn.getPosition(), 48, PointOfInterestManager.Status.ANY);
-        Path path = entityIn.getNavigator().pathfind(stream, ModPointOfInterestType.TRADING_POST.get().getValidRange());
+        Stream<BlockPos> stream = pointOfInterestManager.findAll(ModPointOfInterestType.TRADING_POST.get().getPredicate(), predicate, entity.getPosition(), 48, PointOfInterestManager.Status.ANY);
+        Path path = entity.getNavigator().pathfind(stream, ModPointOfInterestType.TRADING_POST.get().getValidRange());
         if (path != null && path.reachesTarget()) {
-            BlockPos blockpos = path.getTarget();
-            Optional<PointOfInterestType> optional = pointOfInterestManager.getType(blockpos);
+            BlockPos blockPos = path.getTarget();
+            Optional<PointOfInterestType> optional = pointOfInterestManager.getType(blockPos);
             if (optional.isPresent()) {
-                entityIn.getBrain().setMemory(ModMemoryModuleType.NEAREST_TRADING_POST.get(), blockpos);
+                entity.getBrain().setMemory(ModMemoryModuleType.NEAREST_TRADING_POST.get(), GlobalPos.getPosition(dimensionKey, blockPos));
             }
         } else if (this.numFound < 5) {
             this.positionToTimeMap.long2LongEntrySet().removeIf((locatedTime) -> {
