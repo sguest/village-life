@@ -1,5 +1,7 @@
 package sguest.villagelife.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
@@ -40,39 +42,47 @@ public class TradingPostTileEntity extends TileEntity {
                 if(!success && !offer.hasNoUsesLeft()) {
                     ItemStack sellingStack = offer.getCopyOfSellingStack();
                     if(sellingStack.isItemEqual(this.getDisplayedItem()) && ItemStack.areItemStackTagsEqual(sellingStack, this.getDisplayedItem())) {
-                        // Need to allow pulling buying items from multiple slots
                         ItemStack buyingStack1 = offer.getDiscountedBuyingStackFirst();
                         ItemStack buyingStack2 = offer.getBuyingStackSecond().copy();
-                        Integer sellingSlot = null;
-                        Integer buyingSlot1 = null;
-                        Integer buyingSlot2 = null;
+                        List<Integer> sellingSlots = new ArrayList<>();
+                        List<Integer> buyingSlots1 = new ArrayList<>();
+                        List<Integer> buyingSlots2 = new ArrayList<>();
+                        ItemStack testStack;
                         for(int slot = 0; slot < itemHandler.getSlots(); slot++) {
-                            ItemStack testStack;
-                            if(sellingSlot == null) {
-                                testStack = itemHandler.insertItem(slot, sellingStack, true);
-                                if(testStack.isEmpty()) {
-                                    sellingSlot = slot;
-                                }
+                            if(!sellingStack.isEmpty()) {
+                                sellingStack = itemHandler.insertItem(slot, sellingStack, true);
+                                sellingSlots.add(slot);
                             }
-                            if(buyingSlot1 == null) {
+                            if(!buyingStack1.isEmpty()) {
                                 testStack = itemHandler.extractItem(slot, buyingStack1.getCount(), true);
-                                if(testStack.equals(buyingStack1, false)) {
-                                    buyingSlot1 = slot;
+                                if(testStack.isItemEqual(buyingStack1) && ItemStack.areItemStackTagsEqual(testStack, buyingStack1)) {
+                                    buyingStack1.shrink(testStack.getCount());
+                                    buyingSlots1.add(slot);
                                 }
                             }
-                            if(!buyingStack2.isEmpty() && buyingSlot2 == null) {
+                            if(!buyingStack2.isEmpty()) {
                                 testStack = itemHandler.extractItem(slot, buyingStack2.getCount(), true);
-                                if(testStack.equals(buyingStack2, false)) {
-                                    buyingSlot2 = slot;
+                                if(testStack.isItemEqual(buyingStack2) && ItemStack.areItemStackTagsEqual(testStack, buyingStack2)) {
+                                    buyingStack2.shrink(testStack.getCount());
+                                    buyingSlots2.add(slot);
                                 }
                             }
                         }
 
-                        if(sellingSlot != null && buyingSlot1 != null && (buyingSlot2 != null || buyingStack2.isEmpty())) {
-                            itemHandler.insertItem(sellingSlot, sellingStack, false);
-                            itemHandler.extractItem(buyingSlot1, buyingStack1.getCount(), false);
-                            if(!buyingStack2.isEmpty()) {
-                                itemHandler.extractItem(buyingSlot2, buyingStack2.getCount(), false);
+                        if(sellingStack.isEmpty() && buyingStack1.isEmpty() && buyingStack2.isEmpty()) {
+                            sellingStack = offer.getCopyOfSellingStack();
+                            buyingStack1 = offer.getDiscountedBuyingStackFirst();
+                            buyingStack2 = offer.getBuyingStackSecond().copy();
+                            for(Integer slot: sellingSlots) {
+                                sellingStack = itemHandler.insertItem(slot, sellingStack, false);
+                            }
+                            for(Integer slot: buyingSlots1) {
+                                testStack = itemHandler.extractItem(slot, buyingStack1.getCount(), false);
+                                buyingStack1.shrink(testStack.getCount());
+                            }
+                            for(Integer slot: buyingSlots2) {
+                                testStack = itemHandler.extractItem(slot, buyingStack2.getCount(), false);
+                                buyingStack2.shrink(testStack.getCount());
                             }
                             offer.increaseUses();
                             success = true;
