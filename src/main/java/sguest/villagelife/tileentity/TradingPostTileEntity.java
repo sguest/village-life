@@ -44,14 +44,14 @@ public class TradingPostTileEntity extends TileEntity {
                     if(sellingStack.isItemEqual(this.getDisplayedItem()) && ItemStack.areItemStackTagsEqual(sellingStack, this.getDisplayedItem())) {
                         ItemStack buyingStack1 = offer.getDiscountedBuyingStackFirst();
                         ItemStack buyingStack2 = offer.getBuyingStackSecond().copy();
-                        List<Integer> sellingSlots = new ArrayList<>();
+                        int maxSellingSlot = 0;
                         List<Integer> buyingSlots1 = new ArrayList<>();
                         List<Integer> buyingSlots2 = new ArrayList<>();
                         ItemStack testStack;
                         for(int slot = 0; slot < itemHandler.getSlots(); slot++) {
                             if(!sellingStack.isEmpty()) {
                                 sellingStack = itemHandler.insertItem(slot, sellingStack, true);
-                                sellingSlots.add(slot);
+                                maxSellingSlot = slot;
                             }
                             if(!buyingStack1.isEmpty()) {
                                 testStack = itemHandler.extractItem(slot, buyingStack1.getCount(), true);
@@ -73,7 +73,7 @@ public class TradingPostTileEntity extends TileEntity {
                             sellingStack = offer.getCopyOfSellingStack();
                             buyingStack1 = offer.getDiscountedBuyingStackFirst();
                             buyingStack2 = offer.getBuyingStackSecond().copy();
-                            for(Integer slot: sellingSlots) {
+                            for(int slot = 0; slot <= maxSellingSlot; slot++) {
                                 sellingStack = itemHandler.insertItem(slot, sellingStack, false);
                             }
                             for(Integer slot: buyingSlots1) {
