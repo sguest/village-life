@@ -3,6 +3,7 @@ package sguest.villagelife.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -86,6 +87,23 @@ public class TradingPostBlock extends Block {
             else {
                 ItemUtil.giveToPlayer(player, displayedItem);
             }
+        }
+    }
+
+    @Override
+    // Superclass deprecation means don't call this from outside the class. However, overriding is fine and we still want to call the super implementation
+    @SuppressWarnings("deprecation")
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.isIn(newState.getBlock())) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if(tileEntity instanceof TradingPostTileEntity) {
+                ItemStack displayedItem = ((TradingPostTileEntity)tileEntity).getDisplayedItem();
+                if(!displayedItem.isEmpty()) {
+                    InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), displayedItem);
+                }
+            }
+
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 }

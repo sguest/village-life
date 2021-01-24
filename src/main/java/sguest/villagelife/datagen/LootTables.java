@@ -30,6 +30,7 @@ public class LootTables extends BaseLootTableProvider {
         addDoor(ModBlocks.REINFORCED_WARPED_DOOR);
         addStandardTable(ModBlocks.EMERALD_PRESSURE_PLATE);
         addStandardTable(ModBlocks.KEG, builder -> copyNbt(builder, "Contents", "Contents", CopyNbt.Action.REPLACE));
+        addStandardTable(ModBlocks.TRADING_POST);
 
         addHeroGift(ModProfessions.CARPENTER.get(),
             Items.ACACIA_LOG,
