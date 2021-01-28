@@ -22,6 +22,7 @@ import sguest.villagelife.VillageLife;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.item.crafting.ModRecipeSerializers;
+import sguest.villagelife.util.ItemUtil;
 
 public class Recipes extends RecipeProvider {
     public Recipes(DataGenerator generator) {
@@ -145,17 +146,19 @@ public class Recipes extends RecipeProvider {
             .addCriterion("has_keg", hasItem(ModBlocks.KEG.get()))
             .build(consumer, new ResourceLocation(VillageLife.MOD_ID, "empty_keg"));
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRADING_POST.get())
-            .patternLine("CCC")
-            .patternLine("SFS")
-            .patternLine("WWW")
-            .key('C', Items.WHITE_CARPET)
-            .key('S', Tags.Items.RODS_WOODEN)
-            .key('F', Items.ITEM_FRAME)
-            .key('W', Items.OAK_SLAB)
-            .setGroup(ItemGroup.DECORATIONS.getPath())
-            .addCriterion("has_frame", hasItem(Items.ITEM_FRAME))
-            .build(consumer);
+        for(String colour : ItemUtil.listDyeColours()) {
+            ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRADING_POSTS.get(colour).get())
+                .patternLine("CCC")
+                .patternLine("SFS")
+                .patternLine("WWW")
+                .key('C', ItemUtil.getCarpet(colour))
+                .key('S', Tags.Items.RODS_WOODEN)
+                .key('F', Items.ITEM_FRAME)
+                .key('W', Items.OAK_SLAB)
+                .setGroup(ItemGroup.DECORATIONS.getPath())
+                .addCriterion("has_frame", hasItem(Items.ITEM_FRAME))
+                .build(consumer);
+        }
 
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.MUTTON_SANDWICH.get())
             .addIngredient(Items.BREAD)

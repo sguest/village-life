@@ -46,7 +46,9 @@ public class ItemModels extends ItemModelProvider {
         block(ModBlocks.KEG);
         block(ModBlocks.WOODCUTTER);
         block(ModBlocks.EMERALD_PRESSURE_PLATE);
-        block(ModBlocks.TRADING_POST);
+        for(RegistryObject<Block> tradingPost : ModBlocks.TRADING_POSTS.values()) {
+            block(tradingPost);
+        }
     }
 
     private void generated(RegistryObject<Item> item) {

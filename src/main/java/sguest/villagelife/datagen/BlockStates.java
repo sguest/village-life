@@ -1,5 +1,7 @@
 package sguest.villagelife.datagen;
 
+import java.util.Map;
+
 import net.minecraft.block.AbstractPressurePlateBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
@@ -108,33 +110,35 @@ public class BlockStates extends BlockStateProvider {
     }
 
     private void tradingPostBlock() {
-        BlockModelBuilder builder = models().withExistingParent(ModBlocks.TRADING_POST.getId().getPath(), mcLoc("block/block"))
-            .texture("particle", mcLoc("block/oak_planks"))
-            .texture("wood", mcLoc("block/oak_planks"))
-            .texture("wool", mcLoc("block/white_wool"))
-            .texture("frame", mcLoc("block/item_frame"));
+        for(Map.Entry<String, RegistryObject<Block>> entry: ModBlocks.TRADING_POSTS.entrySet()) {
+            BlockModelBuilder builder = models().withExistingParent(entry.getValue().getId().getPath(), mcLoc("block/block"))
+                .texture("particle", mcLoc("block/oak_planks"))
+                .texture("wood", mcLoc("block/oak_planks"))
+                .texture("wool", mcLoc("block/" + entry.getKey() + "_wool"))
+                .texture("frame", mcLoc("block/item_frame"));
 
-        CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
-        CubeUtil.modelElement(builder, TradingPostBlock.BASE_SHAPE).textureAll("#wood").end();
-        CubeUtil.modelElement(builder, TradingPostBlock.FRAME_BACK_SHAPE)
-            .allFaces((direction, faceBuilder) -> {
-                if(direction == Direction.NORTH) {
-                    faceBuilder.texture("#frame");
-                }
-                else {
-                    faceBuilder.texture("#wood");
-                }
-            })
-        .end();
+            CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
+            CubeUtil.modelElement(builder, TradingPostBlock.BASE_SHAPE).textureAll("#wood").end();
+            CubeUtil.modelElement(builder, TradingPostBlock.FRAME_BACK_SHAPE)
+                .allFaces((direction, faceBuilder) -> {
+                    if(direction == Direction.NORTH) {
+                        faceBuilder.texture("#frame");
+                    }
+                    else {
+                        faceBuilder.texture("#wood");
+                    }
+                })
+            .end();
 
-        for(Cube cube : TradingPostBlock.FRAME_EDGE_SHAPES) {
-            CubeUtil.modelElement(builder, cube).textureAll("#wood").end();
+            for(Cube cube : TradingPostBlock.FRAME_EDGE_SHAPES) {
+                CubeUtil.modelElement(builder, cube).textureAll("#wood").end();
+            }
+
+            for(Cube pillar : TradingPostBlock.PILLAR_SHAPES) {
+                CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
+            }
+
+            horizontalBlock(entry.getValue().get(), builder);
         }
-
-        for(Cube pillar : TradingPostBlock.PILLAR_SHAPES) {
-            CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
-        }
-
-        horizontalBlock(ModBlocks.TRADING_POST.get(), builder);
     }
 }
