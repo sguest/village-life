@@ -2,6 +2,8 @@ package sguest.villagelife.block;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -33,7 +35,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
@@ -42,25 +43,24 @@ import sguest.villagelife.item.ModItems;
 import sguest.villagelife.stats.ModStats;
 import sguest.villagelife.tileentity.KegTileEntity;
 import sguest.villagelife.tileentity.KegTileEntity.FluidType;
+import sguest.villagelife.util.CubeUtil;
 import sguest.villagelife.util.ItemUtil;
 import sguest.villagelife.util.TextUtil;
+import sguest.villagelife.util.CubeUtil.Cube;
 
 public class KegBlock extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    protected static final VoxelShape NS_SHAPE = VoxelShapes.or(
-        Block.makeCuboidShape(1.0D, 3.0D, 0.0D, 15.0D, 16.0D, 16.0D),
-        Block.makeCuboidShape(0.0D, 0.0D, 1.0D, 5.0D, 5.0D, 4.0D),
-        Block.makeCuboidShape(11.0D, 0.0D, 1.0D, 16.0D, 5.0D, 4.0D),
-        Block.makeCuboidShape(0.0D, 0.0D, 12.0D, 5.0D, 5.0D, 15.0D),
-        Block.makeCuboidShape(11.0D, 0.0D, 12.0D, 16.0D, 5.0D, 15.0D)
-    );
-    protected static final VoxelShape EW_SHAPE = VoxelShapes.or(
-        Block.makeCuboidShape(0.0D, 3.0D, 1.0D, 16.0D, 16.0D, 15.0D),
-        Block.makeCuboidShape(1.0D, 0.0D, 0.0D, 4.0D, 5.0D, 5.0D),
-        Block.makeCuboidShape(1.0D, 0.0D, 11.0D, 4.0D, 5.0D, 16.0D),
-        Block.makeCuboidShape(12.0D, 0.0D, 0.0D, 15.0D, 5.0D, 5.0D),
-        Block.makeCuboidShape(12.0D, 0.0D, 11.0D, 15.0D, 5.0D, 16.0D)
-    );
+
+    public static final Cube BODY_SHAPE = new Cube(1, 3, 0, 15, 16, 16);
+    public static final Cube[] FEET_SHAPE = new Cube[] {
+        new Cube(0, 0, 1, 5, 5, 4),
+        new Cube(11, 0, 1, 16, 5, 4),
+        new Cube(0, 0, 12, 5, 5, 15),
+        new Cube(11, 0, 12, 16, 5, 15)
+    };
+
+    private static final Map<Direction, VoxelShape> shapes =
+        CubeUtil.getHorizontalShapes(Stream.of(FEET_SHAPE, new Cube[] { BODY_SHAPE }).flatMap(Arrays::stream).toArray(Cube[]::new));
 
     public static Item[] getValidItems() {
         return new Item[] {
@@ -93,11 +93,7 @@ public class KegBlock extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-        Direction facing = state.get(FACING);
-        if(facing == Direction.NORTH || facing == Direction.SOUTH) {
-            return NS_SHAPE;
-        }
-        return EW_SHAPE;
+        return shapes.get(state.get(FACING));
     }
 
     public boolean isTransparent(BlockState state) {

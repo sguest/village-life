@@ -14,7 +14,11 @@ import net.minecraftforge.client.model.generators.ModelBuilder.FaceRotation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import sguest.villagelife.VillageLife;
+import sguest.villagelife.block.KegBlock;
 import sguest.villagelife.block.ModBlocks;
+import sguest.villagelife.block.TradingPostBlock;
+import sguest.villagelife.util.CubeUtil;
+import sguest.villagelife.util.CubeUtil.Cube;
 
 public class BlockStates extends BlockStateProvider {
     public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
@@ -72,10 +76,9 @@ public class BlockStates extends BlockStateProvider {
             .texture("particle", mcLoc("block/barrel_bottom"))
             .texture("front", modLoc("block/keg_front"))
             .texture("back", mcLoc("block/barrel_bottom"))
-            .texture("side", modLoc("block/keg_side"))
-            .element()
-                .from(1, 3, 0)
-                .to(15, 16, 16)
+            .texture("side", modLoc("block/keg_side"));
+        
+            CubeUtil.modelElement(builder, KegBlock.BODY_SHAPE)
                 .allFaces((direction, faceBuilder) -> {
                     switch(direction) {
                         case NORTH:
@@ -96,13 +99,9 @@ public class BlockStates extends BlockStateProvider {
                     }
                 })
             .end();
-        
-        for(int x: new int[] { 0, 11}) {
-            for(int z: new int[] { 1, 12}) {
-                builder = builder.element()
-                    .from(x, 0, z).to(x + 5, 5, z + 3).textureAll("#back")
-                .end();
-            }
+
+        for(Cube foot : KegBlock.FEET_SHAPE) {
+            CubeUtil.modelElement(builder, foot).textureAll("#back").end();
         }
 
         horizontalBlock(ModBlocks.KEG.get(), builder);
@@ -113,36 +112,28 @@ public class BlockStates extends BlockStateProvider {
             .texture("particle", mcLoc("block/oak_planks"))
             .texture("wood", mcLoc("block/oak_planks"))
             .texture("wool", mcLoc("block/white_wool"))
-            .texture("frame", mcLoc("block/item_frame"))
-            .element()
-                .from(0, 15, 0).to(16, 16, 16).textureAll("#wool")
-            .end()
-            .element()
-                .from(1, 0, 1).to(15, 1, 15).textureAll("#wood")
-            .end()
-            .element()
-                .from(2, 2, 14).to(14, 14, 15)
-                .allFaces((direction, faceBuilder) -> {
-                    if(direction == Direction.NORTH) {
-                        faceBuilder.texture("#frame");
-                    }
-                    else {
-                        faceBuilder.texture("#wood");
-                    }
-                })
-            .end()
-            .element().from(2, 2, 13).to(14, 3, 14).textureAll("#wood").end()
-            .element().from(2, 2, 13).to(3, 14, 14).textureAll("#wood").end()
-            .element().from(2, 13, 13).to(14, 14, 14).textureAll("#wood").end()
-            .element().from(13, 2, 13).to(14, 14, 14).textureAll("#wood").end();
+            .texture("frame", mcLoc("block/item_frame"));
 
-            for(int x: new int[] {1, 14}) {
-                for(int z: new int[] {3, 14}) {
-                    builder = builder.element()
-                        .from(x, 0, z).to(x + 1, 15, z + 1).textureAll("#wood")
-                    .end();
+        CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
+        CubeUtil.modelElement(builder, TradingPostBlock.BASE_SHAPE).textureAll("#wood").end();
+        CubeUtil.modelElement(builder, TradingPostBlock.FRAME_BACK_SHAPE)
+            .allFaces((direction, faceBuilder) -> {
+                if(direction == Direction.NORTH) {
+                    faceBuilder.texture("#frame");
                 }
-            }
+                else {
+                    faceBuilder.texture("#wood");
+                }
+            })
+        .end();
+
+        for(Cube cube : TradingPostBlock.FRAME_EDGE_SHAPES) {
+            CubeUtil.modelElement(builder, cube).textureAll("#wood").end();
+        }
+
+        for(Cube pillar : TradingPostBlock.PILLAR_SHAPES) {
+            CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
+        }
 
         horizontalBlock(ModBlocks.TRADING_POST.get(), builder);
     }
