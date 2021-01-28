@@ -1,6 +1,7 @@
 package sguest.villagelife.block;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -8,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
@@ -24,11 +26,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sguest.villagelife.tileentity.TradingPostTileEntity;
 import sguest.villagelife.util.CubeUtil;
 import sguest.villagelife.util.ItemUtil;
+import sguest.villagelife.util.TextUtil;
 import sguest.villagelife.util.CubeUtil.Cube;
 
 public class TradingPostBlock extends Block {
@@ -188,5 +193,11 @@ public class TradingPostBlock extends Block {
 
             super.onReplaced(state, world, pos, newState, isMoving);
         }
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, IBlockReader world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
+        list.add(TextUtil.styledTranslation("block.villagelife.trading_post.tooltip", TextFormatting.DARK_GRAY));
     }
 }

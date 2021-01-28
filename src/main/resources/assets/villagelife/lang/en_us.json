@@ -27,6 +27,7 @@
     "block.villagelife.green_trading_post": "Green Trading Post",
     "block.villagelife.red_trading_post": "Red Trading Post",
     "block.villagelife.black_trading_post": "Black Trading Post",
+    "block.villagelife.trading_post.tooltip": "Place on top of any inventory",
 
     "block.villagelife.keg.tooltip.milk": "Milk",
     "block.villagelife.keg.tooltip.honey": "Honey",
