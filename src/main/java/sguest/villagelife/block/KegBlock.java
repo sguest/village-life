@@ -104,7 +104,6 @@ public class KegBlock extends Block {
         return BlockRenderType.MODEL;
     }
 
-    
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }

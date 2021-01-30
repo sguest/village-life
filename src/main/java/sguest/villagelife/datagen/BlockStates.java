@@ -79,28 +79,28 @@ public class BlockStates extends BlockStateProvider {
             .texture("front", modLoc("block/keg_front"))
             .texture("back", mcLoc("block/barrel_bottom"))
             .texture("side", modLoc("block/keg_side"));
-        
-            CubeUtil.modelElement(builder, KegBlock.BODY_SHAPE)
-                .allFaces((direction, faceBuilder) -> {
-                    switch(direction) {
-                        case NORTH:
-                            faceBuilder.texture("#front").uvs(1, 0, 15, 14).cullface(Direction.NORTH);
-                            break;
-                        case SOUTH:
-                            faceBuilder.texture("#back").uvs(1, 0, 15, 14).cullface(Direction.SOUTH);
-                            break;
-                        default:
-                            faceBuilder.texture("#side").uvs(0, 0, 13, 16);
-                            if(direction == Direction.EAST) {
-                                faceBuilder.rotation(FaceRotation.CLOCKWISE_90);
-                            }
-                            else if(direction == Direction.WEST) {
-                                faceBuilder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
-                            }
-                            break;
-                    }
-                })
-            .end();
+
+        CubeUtil.modelElement(builder, KegBlock.BODY_SHAPE)
+            .allFaces((direction, faceBuilder) -> {
+                switch(direction) {
+                    case NORTH:
+                        faceBuilder.texture("#front").uvs(1, 0, 15, 14).cullface(Direction.NORTH);
+                        break;
+                    case SOUTH:
+                        faceBuilder.texture("#back").uvs(1, 0, 15, 14).cullface(Direction.SOUTH);
+                        break;
+                    default:
+                        faceBuilder.texture("#side").uvs(0, 0, 13, 16);
+                        if(direction == Direction.EAST) {
+                            faceBuilder.rotation(FaceRotation.CLOCKWISE_90);
+                        }
+                        else if(direction == Direction.WEST) {
+                            faceBuilder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
+                        }
+                        break;
+                }
+            })
+        .end();
 
         for(Cube foot : KegBlock.FEET_SHAPE) {
             CubeUtil.modelElement(builder, foot).textureAll("#back").end();
