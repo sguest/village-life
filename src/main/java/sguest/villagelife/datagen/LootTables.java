@@ -33,6 +33,7 @@ public class LootTables extends BaseLootTableProvider {
         for(RegistryObject<Block> tradingPost : ModBlocks.TRADING_POSTS.values()) {
             addStandardTable(tradingPost);
         }
+        addStandardTable(ModBlocks.HARVESTER);
 
         addHeroGift(ModProfessions.CARPENTER.get(),
             Items.ACACIA_LOG,

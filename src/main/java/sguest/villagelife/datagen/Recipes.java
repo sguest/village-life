@@ -160,6 +160,17 @@ public class Recipes extends RecipeProvider {
                 .build(consumer);
         }
 
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.HARVESTER.get())
+            .patternLine("III")
+            .patternLine("CRC")
+            .patternLine("CCC")
+            .key('I', Items.IRON_BARS)
+            .key('C', Tags.Items.COBBLESTONE)
+            .key('R', Tags.Items.DUSTS_REDSTONE)
+            .setGroup(ItemGroup.DECORATIONS.getPath())
+            .addCriterion("has_redstone", hasItem(Items.REDSTONE))
+            .build(consumer);
+
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.MUTTON_SANDWICH.get())
             .addIngredient(Items.BREAD)
             .addIngredient(Items.COOKED_MUTTON)
