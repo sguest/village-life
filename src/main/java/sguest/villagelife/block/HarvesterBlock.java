@@ -9,11 +9,14 @@ import net.minecraft.block.DirectionalBlock;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -85,6 +88,8 @@ public class HarvesterBlock extends Block {
                 for(ItemStack drop : drops) {
                     InventoryHelper.spawnItemStack(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), drop);
                 }
+                world.playSound(null, targetPos, targetState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1.5F, 1.0F);
+                world.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetState), targetPos.getX(), targetPos.getY(), targetPos.getZ(), 10, 0, 0.5, 0, 0.4);
             }
         }
     }
