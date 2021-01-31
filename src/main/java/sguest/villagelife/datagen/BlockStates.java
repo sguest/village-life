@@ -145,13 +145,13 @@ public class BlockStates extends BlockStateProvider {
 
     private void HarvesterBlock() {
         BlockModelBuilder builder = models().withExistingParent(ModBlocks.HARVESTER.getId().getPath(), mcLoc("block/cube_bottom_top"))
-            .texture("top", mcLoc("block/oak_planks"))
-            .texture("bottom", mcLoc("block/cobblestone"))
-            .texture("side", mcLoc("block/grass_block_side"));
+            .texture("top", modLoc("block/harvester_front"))
+            .texture("bottom", mcLoc("block/furnace_top"))
+            .texture("side", modLoc("block/harvester_side"));
 
         BlockModelBuilder onBuilder = models().withExistingParent(ModBlocks.HARVESTER.getId() + "_on", ModBlocks.HARVESTER.getId())
-            .texture("top", mcLoc("block/birch_planks"))
-            .texture("side", mcLoc("block/podzol_side"));
+            .texture("top", modLoc("block/harvester_front_on"))
+            .texture("side", modLoc("block/harvester_side_on"));
 
         directionalBlock(ModBlocks.HARVESTER.get(), state -> {
             if(state.get(HarvesterBlock.TRIGGERED)) {
