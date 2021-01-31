@@ -40,6 +40,7 @@ public class ModBlocks {
             TRADING_POSTS.put(colour, BLOCKS.register(colour + "_trading_post", () -> new TradingPostBlock(Block.Properties.create(Material.WOOD, Blocks.OAK_PLANKS.getMaterialColor()).hardnessAndResistance(2.0F).sound(SoundType.WOOD).notSolid())));
         }
     }
+    public static final RegistryObject<Block> HARVESTER = BLOCKS.register("harvester", () -> new HarvesterBlock(Block.Properties.create(Material.ROCK, Blocks.DROPPER.getMaterialColor()).hardnessAndResistance(3.5F).sound(SoundType.STONE).setRequiresTool()));
 
     @SubscribeEvent
     public static void onClientSetupEvent(FMLClientSetupEvent event) {

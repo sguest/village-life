@@ -49,6 +49,7 @@ public class ItemModels extends ItemModelProvider {
         for(RegistryObject<Block> tradingPost : ModBlocks.TRADING_POSTS.values()) {
             block(tradingPost);
         }
+        block(ModBlocks.HARVESTER);
     }
 
     private void generated(RegistryObject<Item> item) {

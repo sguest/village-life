@@ -16,6 +16,7 @@ import net.minecraftforge.client.model.generators.ModelBuilder.FaceRotation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import sguest.villagelife.VillageLife;
+import sguest.villagelife.block.HarvesterBlock;
 import sguest.villagelife.block.KegBlock;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.block.TradingPostBlock;
@@ -46,11 +47,11 @@ public class BlockStates extends BlockStateProvider {
                 .texture("side", modLoc("block/woodcutter_side"))
         );
 
-        kegBlock();
-
         onOffPressurePlateBlock((AbstractPressurePlateBlock)ModBlocks.EMERALD_PRESSURE_PLATE.get(), mcLoc("block/emerald_block"));
 
+        kegBlock();
         tradingPostBlock();
+        HarvesterBlock();
     }
 
     private void onOffPressurePlateBlock(AbstractPressurePlateBlock block, ResourceLocation texture) {
@@ -140,5 +141,23 @@ public class BlockStates extends BlockStateProvider {
 
             horizontalBlock(entry.getValue().get(), builder);
         }
+    }
+
+    private void HarvesterBlock() {
+        BlockModelBuilder builder = models().withExistingParent(ModBlocks.HARVESTER.getId().getPath(), mcLoc("block/cube_bottom_top"))
+            .texture("top", mcLoc("block/oak_planks"))
+            .texture("bottom", mcLoc("block/cobblestone"))
+            .texture("side", mcLoc("block/grass_block_side"));
+
+        BlockModelBuilder onBuilder = models().withExistingParent(ModBlocks.HARVESTER.getId() + "_on", ModBlocks.HARVESTER.getId())
+            .texture("top", mcLoc("block/birch_planks"))
+            .texture("side", mcLoc("block/podzol_side"));
+
+        directionalBlock(ModBlocks.HARVESTER.get(), state -> {
+            if(state.get(HarvesterBlock.TRIGGERED)) {
+                return onBuilder;
+            }
+            return builder;
+        });
     }
 }

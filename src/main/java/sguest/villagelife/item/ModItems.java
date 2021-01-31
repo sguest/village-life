@@ -58,6 +58,7 @@ public class ModItems {
             TRADING_POSTS.put(colour, ITEMS.register(colour + "_trading_post", () -> new BlockItem(ModBlocks.TRADING_POSTS.get(colour).get(), new Item.Properties().group(ItemGroup.DECORATIONS))));
         }
     }
+    public static final RegistryObject<Item> HARVESTER = ITEMS.register("harvester", () -> new BlockItem(ModBlocks.HARVESTER.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
     public static void register() {
         ModItemTier.register();

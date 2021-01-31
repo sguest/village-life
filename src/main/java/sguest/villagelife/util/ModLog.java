@@ -14,6 +14,10 @@ public class ModLog {
         getLogger().info(message);
     }
 
+    public static void info(String message, Object ... params) {
+        getLogger().info(message, params);
+    }
+
     public static void info(Object message) {
         getLogger().info(message);
     }
