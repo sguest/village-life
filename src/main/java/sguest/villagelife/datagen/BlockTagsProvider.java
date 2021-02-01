@@ -39,5 +39,7 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
         for(RegistryObject<Block> tradingPost : ModBlocks.TRADING_POSTS.values()) {
             tradingPostBuilder.addItemEntry(tradingPost.get());
         }
+
+        getOrCreateBuilder(ModTags.Blocks.HARVESTER_IGNORED);
     }
 }

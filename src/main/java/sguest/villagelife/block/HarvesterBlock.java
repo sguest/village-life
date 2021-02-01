@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import sguest.villagelife.tags.ModTags;
 
 public class HarvesterBlock extends Block {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -60,7 +61,7 @@ public class HarvesterBlock extends Block {
         BlockPos targetPos = pos.offset(state.get(FACING));
         BlockState targetState = world.getBlockState(targetPos);
         Block targetBlock = targetState.getBlock();
-        if(targetBlock instanceof IPlantable) {
+        if(targetBlock instanceof IPlantable && !ModTags.Blocks.HARVESTER_IGNORED.contains(targetBlock)) {
             BlockRayTraceResult raytrace =
                 new BlockRayTraceResult(new Vector3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()), state.get(FACING), pos, false);
             ItemStack seedStack = targetBlock.getPickBlock(state, raytrace, world, targetPos, FakePlayerFactory.getMinecraft(world));
