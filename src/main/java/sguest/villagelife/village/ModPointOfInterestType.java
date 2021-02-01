@@ -20,6 +20,7 @@ public class ModPointOfInterestType {
     private static final DeferredRegister<PointOfInterestType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, VillageLife.MOD_ID);
     public static final RegistryObject<PointOfInterestType> CARPENTER = POI_TYPES.register("carpenter", () -> createPoiType("carpenter", ModBlocks.WOODCUTTER.get()));
     public static final RegistryObject<PointOfInterestType> INNKEEPER = POI_TYPES.register("innkeeper", () -> createPoiType("inkeeper", ModBlocks.KEG.get()));
+    public static final RegistryObject<PointOfInterestType> GARDENER = POI_TYPES.register("gardener", () -> createPoiType("gardener", ModBlocks.HARVESTER.get()));
     public static final RegistryObject<PointOfInterestType> TRADING_POST = POI_TYPES.register("trading_post", () -> createPoiType("trading_post", 1, 6, ModBlocks.TRADING_POSTS.values().stream().map(x -> x.get()).toArray(Block[]::new)));
 
     private static PointOfInterestType createPoiType(String name, Collection<BlockState> blockStates, int maxTickets, int validRange) {

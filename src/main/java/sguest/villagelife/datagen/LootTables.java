@@ -42,7 +42,24 @@ public class LootTables extends BaseLootTableProvider {
             Items.JUNGLE_LOG,
             Items.OAK_LOG,
             Items.SPRUCE_LOG);
-        addHeroGift(ModProfessions.INNKEEPER.get(), Items.MUSHROOM_STEM, Items.RABBIT_STEW, Items.BEETROOT_SOUP);
+        addHeroGift(ModProfessions.INNKEEPER.get(), Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP);
+        addHeroGift(ModProfessions.GARDENER.get(),
+            Items.DANDELION,
+            Items.POPPY,
+            Items.BLUE_ORCHID,
+            Items.ALLIUM,
+            Items.AZURE_BLUET,
+            Items.ORANGE_TULIP,
+            Items.PINK_TULIP,
+            Items.RED_TULIP,
+            Items.WHITE_TULIP,
+            Items.OXEYE_DAISY,
+            Items.CORNFLOWER,
+            Items.LILY_OF_THE_VALLEY,
+            Items.SUNFLOWER,
+            Items.LILAC,
+            Items.ROSE_BUSH,
+            Items.PEONY);
 
         addInjectTable("chests/village/village_weaponsmith", builder -> {
             builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(10));

@@ -13,6 +13,9 @@ import net.minecraft.entity.villager.VillagerType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.SuspiciousStewItem;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -115,6 +118,40 @@ public class ModTrades {
             trades.get(5).add(simpleSelling(new ItemStack(ModItems.PORK_SANDWICH.get(), 3), 3, 12, 30 ,false));
             trades.get(5).add(simpleSelling(new ItemStack(ModItems.MUTTON_SANDWICH.get(), 3), 3, 12, 30 ,false));
         }
+        else if(professionName == ModProfessions.GARDENER.get().getRegistryName()) {
+            trades.get(1).add(simpleBuying(new ItemStack(Items.WHEAT_SEEDS, 32), 1, 16, 2, false));
+            trades.get(1).add(simpleBuying(new ItemStack(Items.BEETROOT_SEEDS, 16), 1, 16, 2, false));
+            trades.get(1).add(simpleBuying(new ItemStack(Items.MELON_SEEDS, 16), 1, 16, 2, false));
+            trades.get(1).add(simpleBuying(new ItemStack(Items.PUMPKIN_SEEDS, 16), 1, 16, 2, false));
+
+            trades.get(2).add(simpleSelling(new ItemStack(Items.DANDELION, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.POPPY, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.BLUE_ORCHID, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.ALLIUM, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.AZURE_BLUET, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.ORANGE_TULIP, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.PINK_TULIP, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.RED_TULIP, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.WHITE_TULIP, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.OXEYE_DAISY, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.CORNFLOWER, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.LILY_OF_THE_VALLEY, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.SUNFLOWER, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.LILAC, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.ROSE_BUSH, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(Items.PEONY, 5), 1, 16, 5, false));
+
+            trades.get(3).add(simpleSelling(new ItemStack(Items.FLOWER_POT, 3), 1, 16, 10, false));
+            trades.get(3).add(simpleBuying(new ItemStack(Items.BONE_MEAL, 32), 1, 15, 10, false));
+
+            trades.get(4).add(stewSelling(Effects.FIRE_RESISTANCE, 80, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.REGENERATION, 140, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.LEVITATION, 160, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.MINING_FATIGUE, 160, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.RESISTANCE, 100, 1, 12, 15, false));
+
+            trades.get(5).add(simpleSelling(new ItemStack(Items.NETHER_WART, 5), 3, 12, 30, false));
+        }
     }
 
     private static VillagerTrade simpleSelling(ItemStack soldItem, int emeraldPrice, int numTrades, int xpValue, boolean highMultiplier) {
@@ -131,6 +168,12 @@ public class ModTrades {
             priceMultiplier = 0.2F;
         }
         return new VillagerTrade(new ItemStack(Items.EMERALD, emeraldPrice), boughtItem, ItemStack.EMPTY, numTrades, xpValue, priceMultiplier);
+    }
+
+    private static VillagerTrade stewSelling(Effect effect, int duration, int emeraldPrice, int numTrades, int xpValue, boolean highMultiplier) {
+        ItemStack stew = new ItemStack(Items.SUSPICIOUS_STEW, 1);
+        SuspiciousStewItem.addEffect(stew, effect, duration);
+        return simpleSelling(stew, emeraldPrice, numTrades, xpValue, highMultiplier);
     }
 
     private static BiomeTrade biomeSelling(Map<VillagerType, ItemStack> soldItems, int emeraldPrice, int numTrades, int xpValue, boolean highMultiplier) {
