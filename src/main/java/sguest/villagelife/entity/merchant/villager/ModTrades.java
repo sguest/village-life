@@ -140,6 +140,7 @@ public class ModTrades {
             trades.get(2).add(simpleSelling(new ItemStack(Items.LILAC, 5), 1, 16, 5, false));
             trades.get(2).add(simpleSelling(new ItemStack(Items.ROSE_BUSH, 5), 1, 16, 5, false));
             trades.get(2).add(simpleSelling(new ItemStack(Items.PEONY, 5), 1, 16, 5, false));
+            trades.get(2).add(simpleSelling(new ItemStack(ModItems.CROCUS.get(), 5), 1, 16, 5, false));
 
             trades.get(3).add(simpleSelling(new ItemStack(Items.FLOWER_POT, 3), 1, 16, 10, false));
             trades.get(3).add(simpleBuying(new ItemStack(Items.BONE_MEAL, 32), 1, 15, 10, false));

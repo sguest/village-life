@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,6 +58,10 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         return addStandardTable(registry.getId().getPath(), registry.get());
     }
 
+    protected LootTable.Builder addStandardTable(RegistryObject<Block> registry, IItemProvider[] drops) {
+        return addStandardTable(registry.getId().getPath(), registry.get(), drops);
+    }
+
     protected LootTable.Builder addStandardTable(RegistryObject<Block> registry, Consumer<ItemLootEntry.Builder<?>> configure) {
         return addStandardTable(registry.getId().getPath(), registry.get(), configure);
     }
@@ -65,19 +70,31 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         return addStandardTable(name, block, builder -> {});
     }
 
-    // Subclasses can call this if they want a standard loot table. Modify this for your own needs
     protected LootTable.Builder addStandardTable(String name, Block block, Consumer<ItemLootEntry.Builder<?>> configure) {
-        ItemLootEntry.Builder<?> itemLootEntryBuilder = ItemLootEntry.builder(block)
-            .acceptCondition(SurvivesExplosion.builder());
+        return addStandardTable(name, block, new Block[] { block }, (builder, drop) -> configure.accept(builder));
+    }
 
-        configure.accept(itemLootEntryBuilder);
+    protected LootTable.Builder addStandardTable(String name, Block block, IItemProvider[] drops) {
+        return addStandardTable(name, block, drops, (builder, drop) -> {});
+    }
 
-        LootPool.Builder builder = LootPool.builder()
-                .name(name)
-                .rolls(ConstantRange.of(1))
-                .addEntry(itemLootEntryBuilder);
+    // Subclasses can call this if they want a standard loot table. Modify this for your own needs
+    protected LootTable.Builder addStandardTable(String name, Block block, IItemProvider[] drops, BiConsumer<ItemLootEntry.Builder<?>, IItemProvider> configure) {
+        LootTable.Builder tableBuilder = LootTable.builder();
 
-        LootTable.Builder tableBuilder = LootTable.builder().addLootPool(builder);
+        for(IItemProvider drop : drops) {
+            ItemLootEntry.Builder<?> itemLootEntryBuilder = ItemLootEntry.builder(drop)
+                .acceptCondition(SurvivesExplosion.builder());
+
+            configure.accept(itemLootEntryBuilder, drop);
+
+            LootPool.Builder builder = LootPool.builder()
+                    .name(name)
+                    .rolls(ConstantRange.of(1))
+                    .addEntry(itemLootEntryBuilder);
+
+            tableBuilder.addLootPool(builder);
+        }
         blockLootTables.put(block, tableBuilder);
         return tableBuilder;
     }

@@ -50,21 +50,26 @@ public class ItemModels extends ItemModelProvider {
             block(tradingPost);
         }
         block(ModBlocks.HARVESTER);
+
+        generatedBlock(ModBlocks.CROCUS);
     }
 
     private void generated(RegistryObject<Item> item) {
-        simpleParent(item, "item/generated");
+        simpleParent(item.getId(), "item/", "item/generated");
+    }
+
+    private void generatedBlock(RegistryObject<Block> block) {
+        simpleParent(block.getId(), "block/", "item/generated");
     }
 
     private void handheld(RegistryObject<Item> item) {
-        simpleParent(item, "item/handheld");
+        simpleParent(item.getId(), "item/", "item/handheld");
     }
 
-    private void simpleParent(RegistryObject<Item> item, String parent) {
-        ResourceLocation id = item.getId();
+    private void simpleParent(ResourceLocation id, String path, String parent) {
         getBuilder(id.getPath())
             .parent(new UncheckedModelFile(parent))
-            .texture("layer0", new ResourceLocation(id.getNamespace(), "item/" + id.getPath()));
+            .texture("layer0", new ResourceLocation(id.getNamespace(), path + id.getPath()));
     }
 
     private void block(RegistryObject<Block> block) {

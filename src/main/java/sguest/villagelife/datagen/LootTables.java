@@ -1,6 +1,7 @@
 package sguest.villagelife.datagen;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.loot.EmptyLootEntry;
@@ -34,6 +35,8 @@ public class LootTables extends BaseLootTableProvider {
             addStandardTable(tradingPost);
         }
         addStandardTable(ModBlocks.HARVESTER);
+        addStandardTable(ModBlocks.CROCUS);
+        addStandardTable(ModBlocks.POTTED_CROCUS, new Block[] {Blocks.FLOWER_POT, ModBlocks.CROCUS.get()});
 
         addHeroGift(ModProfessions.CARPENTER.get(),
             Items.ACACIA_LOG,
@@ -59,7 +62,8 @@ public class LootTables extends BaseLootTableProvider {
             Items.SUNFLOWER,
             Items.LILAC,
             Items.ROSE_BUSH,
-            Items.PEONY);
+            Items.PEONY,
+            ModItems.CROCUS.get());
 
         addInjectTable("chests/village/village_weaponsmith", builder -> {
             builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(10));

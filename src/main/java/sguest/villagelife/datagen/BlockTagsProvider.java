@@ -41,5 +41,11 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
         }
 
         getOrCreateBuilder(ModTags.Blocks.HARVESTER_IGNORED);
+
+        getOrCreateBuilder(BlockTags.SMALL_FLOWERS)
+            .addItemEntry(ModBlocks.CROCUS.get());
+
+        getOrCreateBuilder(BlockTags.FLOWER_POTS)
+            .addItemEntry(ModBlocks.POTTED_CROCUS.get());
     }
 }

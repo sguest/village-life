@@ -59,6 +59,7 @@ public class ModItems {
         }
     }
     public static final RegistryObject<Item> HARVESTER = ITEMS.register("harvester", () -> new BlockItem(ModBlocks.HARVESTER.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
+    public static final RegistryObject<Item> CROCUS = ITEMS.register("crocus", () -> new BlockItem(ModBlocks.CROCUS.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
     public static void register() {
         ModItemTier.register();

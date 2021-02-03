@@ -51,7 +51,9 @@ public class BlockStates extends BlockStateProvider {
 
         kegBlock();
         tradingPostBlock();
-        HarvesterBlock();
+        harvesterBlock();
+
+        flower(ModBlocks.CROCUS, ModBlocks.POTTED_CROCUS);
     }
 
     private void onOffPressurePlateBlock(AbstractPressurePlateBlock block, ResourceLocation texture) {
@@ -143,7 +145,7 @@ public class BlockStates extends BlockStateProvider {
         }
     }
 
-    private void HarvesterBlock() {
+    private void harvesterBlock() {
         BlockModelBuilder builder = models().withExistingParent(ModBlocks.HARVESTER.getId().getPath(), mcLoc("block/cube_bottom_top"))
             .texture("top", modLoc("block/harvester_front"))
             .texture("bottom", mcLoc("block/furnace_top"))
@@ -159,5 +161,16 @@ public class BlockStates extends BlockStateProvider {
             }
             return builder;
         });
+    }
+
+    private void flower(RegistryObject<Block> flower, RegistryObject<Block> pot) {
+        String flowerName = flower.getId().getPath();
+        BlockModelBuilder builder = models().withExistingParent(flowerName, mcLoc("block/cross"))
+            .texture("cross", modLoc("block/" + flowerName));
+        simpleBlock(flower.get(), builder);
+
+        builder = models().withExistingParent("potted_" + flowerName, mcLoc("block/flower_pot_cross"))
+            .texture("plant", modLoc("block/" + flowerName));
+        simpleBlock(pot.get(), builder);
     }
 }
