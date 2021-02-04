@@ -10,6 +10,7 @@ import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.data.SingleItemRecipeBuilder;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -18,11 +19,11 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import sguest.villagelife.VillageLife;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.item.crafting.ModRecipeSerializers;
-import sguest.villagelife.util.ItemUtil;
 
 public class Recipes extends RecipeProvider {
     public Recipes(DataGenerator generator) {
@@ -146,12 +147,12 @@ public class Recipes extends RecipeProvider {
             .addCriterion("has_keg", hasItem(ModBlocks.KEG.get()))
             .build(consumer, new ResourceLocation(VillageLife.MOD_ID, "empty_keg"));
 
-        for(String colour : ItemUtil.listDyeColours()) {
+        for(DyeColor colour : DyeColor.values()) {
             ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRADING_POSTS.get(colour).get())
                 .patternLine("CCC")
                 .patternLine("SFS")
                 .patternLine("WWW")
-                .key('C', ItemUtil.getCarpet(colour))
+                .key('C', ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", colour + "_carpet")))
                 .key('S', Tags.Items.RODS_WOODEN)
                 .key('F', Items.ITEM_FRAME)
                 .key('W', Items.OAK_SLAB)

@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.item.DyeColor;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import sguest.villagelife.VillageLife;
-import sguest.villagelife.util.ItemUtil;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
@@ -37,9 +37,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> REINFORCED_WARPED_DOOR = BLOCKS.register("reinforced_warped_door", () -> new ReinforcedDoorBlock(Block.Properties.create(Material.WOOD, Blocks.WARPED_PLANKS.getMaterialColor()).hardnessAndResistance(4.0F).sound(SoundType.WOOD).notSolid()));
     public static final RegistryObject<Block> EMERALD_PRESSURE_PLATE = BLOCKS.register("emerald_pressure_plate", () -> new EmeraldPressurePlateBlock(Block.Properties.create(Material.IRON, MaterialColor.EMERALD).setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> KEG = BLOCKS.register("keg", () -> new KegBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)));
-    public static final Map<String, RegistryObject<Block>> TRADING_POSTS = new HashMap<>();
+    public static final Map<DyeColor, RegistryObject<Block>> TRADING_POSTS = new HashMap<>();
     static {
-        for(String colour: ItemUtil.listDyeColours()) {
+        for(DyeColor colour: DyeColor.values()) {
             TRADING_POSTS.put(colour, BLOCKS.register(colour + "_trading_post", () -> new TradingPostBlock(Block.Properties.create(Material.WOOD, Blocks.OAK_PLANKS.getMaterialColor()).hardnessAndResistance(2.0F).sound(SoundType.WOOD).notSolid())));
         }
     }

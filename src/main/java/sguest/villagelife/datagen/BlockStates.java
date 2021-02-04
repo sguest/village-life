@@ -1,11 +1,10 @@
 package sguest.villagelife.datagen;
 
-import java.util.Map;
-
 import net.minecraft.block.AbstractPressurePlateBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.DyeColor;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -113,11 +112,12 @@ public class BlockStates extends BlockStateProvider {
     }
 
     private void tradingPostBlock() {
-        for(Map.Entry<String, RegistryObject<Block>> entry: ModBlocks.TRADING_POSTS.entrySet()) {
-            BlockModelBuilder builder = models().withExistingParent(entry.getValue().getId().getPath(), mcLoc("block/block"))
+        for(DyeColor colour : DyeColor.values()) {
+            RegistryObject<Block> tradingPost = ModBlocks.TRADING_POSTS.get(colour);
+            BlockModelBuilder builder = models().withExistingParent(tradingPost.getId().getPath(), mcLoc("block/block"))
                 .texture("particle", mcLoc("block/oak_planks"))
                 .texture("wood", mcLoc("block/oak_planks"))
-                .texture("wool", mcLoc("block/" + entry.getKey() + "_wool"))
+                .texture("wool", mcLoc("block/" + colour.getTranslationKey() + "_wool"))
                 .texture("frame", mcLoc("block/item_frame"));
 
             CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
@@ -141,7 +141,7 @@ public class BlockStates extends BlockStateProvider {
                 CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
             }
 
-            horizontalBlock(entry.getValue().get(), builder);
+            horizontalBlock(tradingPost.get(), builder);
         }
     }
 
