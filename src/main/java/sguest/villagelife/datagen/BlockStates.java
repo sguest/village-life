@@ -112,36 +112,38 @@ public class BlockStates extends BlockStateProvider {
     }
 
     private void tradingPostBlock() {
+        final ResourceLocation parentName = modLoc("block/trading_post");
+        BlockModelBuilder builder = models().withExistingParent(parentName.getPath(), mcLoc("block/block"))
+            .texture("particle", mcLoc("block/oak_planks"))
+            .texture("wood", mcLoc("block/oak_planks"))
+            .texture("frame", mcLoc("block/item_frame"));
+
+        CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
+        CubeUtil.modelElement(builder, TradingPostBlock.BASE_SHAPE).textureAll("#wood").end();
+        CubeUtil.modelElement(builder, TradingPostBlock.FRAME_BACK_SHAPE)
+            .allFaces((direction, faceBuilder) -> {
+                if(direction == Direction.NORTH) {
+                    faceBuilder.texture("#frame");
+                }
+                else {
+                    faceBuilder.texture("#wood");
+                }
+            })
+        .end();
+
+        for(Cube cube : TradingPostBlock.FRAME_EDGE_SHAPES) {
+            CubeUtil.modelElement(builder, cube).textureAll("#wood").end();
+        }
+
+        for(Cube pillar : TradingPostBlock.PILLAR_SHAPES) {
+            CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
+        }
+
         for(DyeColor colour : DyeColor.values()) {
             RegistryObject<Block> tradingPost = ModBlocks.TRADING_POSTS.get(colour);
-            BlockModelBuilder builder = models().withExistingParent(tradingPost.getId().getPath(), mcLoc("block/block"))
-                .texture("particle", mcLoc("block/oak_planks"))
-                .texture("wood", mcLoc("block/oak_planks"))
-                .texture("wool", mcLoc("block/" + colour.getTranslationKey() + "_wool"))
-                .texture("frame", mcLoc("block/item_frame"));
-
-            CubeUtil.modelElement(builder, TradingPostBlock.CANOPY_SHAPE).textureAll("#wool").end();
-            CubeUtil.modelElement(builder, TradingPostBlock.BASE_SHAPE).textureAll("#wood").end();
-            CubeUtil.modelElement(builder, TradingPostBlock.FRAME_BACK_SHAPE)
-                .allFaces((direction, faceBuilder) -> {
-                    if(direction == Direction.NORTH) {
-                        faceBuilder.texture("#frame");
-                    }
-                    else {
-                        faceBuilder.texture("#wood");
-                    }
-                })
-            .end();
-
-            for(Cube cube : TradingPostBlock.FRAME_EDGE_SHAPES) {
-                CubeUtil.modelElement(builder, cube).textureAll("#wood").end();
-            }
-
-            for(Cube pillar : TradingPostBlock.PILLAR_SHAPES) {
-                CubeUtil.modelElement(builder, pillar).textureAll("#wood").end();
-            }
-
-            horizontalBlock(tradingPost.get(), builder);
+            BlockModelBuilder colourBuilder = models().withExistingParent(tradingPost.getId().getPath(), parentName)
+                .texture("wool", mcLoc("block/" + colour.getTranslationKey() + "_wool"));
+            horizontalBlock(tradingPost.get(), colourBuilder);
         }
     }
 
