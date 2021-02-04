@@ -2,7 +2,6 @@ package sguest.villagelife.block;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
