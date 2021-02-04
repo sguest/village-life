@@ -47,13 +47,17 @@ public class VillageLife {
 
     public void setup(final FMLCommonSetupEvent event) {
         proxy.setup(event);
-        ModProfessions.setup();
-        ModSensorType.setup();
-        ModMemoryModuleType.setup();
-        ModWorldGen.setup(event);
+        event.enqueueWork(() -> {
+            ModProfessions.setup();
+            ModSensorType.setup();
+            ModMemoryModuleType.setup();
+            ModWorldGen.setup();
+        });
     }
 
     public void loadComplete(FMLLoadCompleteEvent event) {
-        DispenserOverrides.loadComplete(event);
+        event.enqueueWork(() -> {
+            DispenserOverrides.loadComplete();
+        });
     }
 }

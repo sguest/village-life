@@ -7,7 +7,6 @@ import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.blockstateprovider.ForestFlowerBlockStateProvider;
 import net.minecraft.world.gen.blockstateprovider.PlainFlowerBlockStateProvider;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sguest.villagelife.block.ModBlocks;
 
 public class ModWorldGen {
@@ -23,7 +22,7 @@ public class ModWorldGen {
         ForestFlowerBlockStateProvider.STATES = forestFlowers.toArray(ForestFlowerBlockStateProvider.STATES);
     }
 
-    public static void setup(FMLCommonSetupEvent event) {
-        event.enqueueWork(ModWorldGen::registerFlowers);
+    public static void setup() {
+        registerFlowers();
     }
 }

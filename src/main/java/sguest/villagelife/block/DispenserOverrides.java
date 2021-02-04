@@ -14,16 +14,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import sguest.villagelife.item.ModItems;
 import sguest.villagelife.tileentity.KegTileEntity;
 
 public class DispenserOverrides {
-    public static void loadComplete(FMLLoadCompleteEvent event) {
-        event.enqueueWork(DispenserOverrides::applyOverrides);
-    }
-
-    private static void applyOverrides() {
+    public static void loadComplete() {
         applyKegOverride(KegBlock.getValidItems());
 
         DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.put(ModItems.KEG.get(), new ShulkerBoxDispenseBehavior());
