@@ -27,9 +27,12 @@ public class VillageLifeJeiPlugin implements IModPlugin {
 
     private static ClientWorld world;
 
-    public VillageLifeJeiPlugin() {
-        Minecraft mc = Minecraft.getInstance();
-        world = mc.world;
+    private static ClientWorld getWorld() {
+        if(world == null) {
+            Minecraft mc = Minecraft.getInstance();
+            world = mc.world;
+        }
+        return world;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class VillageLifeJeiPlugin implements IModPlugin {
     }
 
     private <C extends IInventory, T extends IRecipe<C>> Collection<IRecipe<C>> getRecipes(IRecipeType<T> recipeType) {
-        RecipeManager recipeManager = world.getRecipeManager();
+        RecipeManager recipeManager = getWorld().getRecipeManager();
         return recipeManager.getRecipes(recipeType).values();
     }
 }
