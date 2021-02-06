@@ -36,8 +36,5 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
         for(RegistryObject<Item> tradingPost : ModItems.TRADING_POSTS.values()) {
             tradingPostBuilder.addItemEntry(tradingPost.get());
         }
-
-        getOrCreateBuilder(ItemTags.SMALL_FLOWERS)
-            .addItemEntry(ModItems.CROCUS.get());
     }
 }

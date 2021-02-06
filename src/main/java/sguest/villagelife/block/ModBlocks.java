@@ -5,15 +5,12 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.DyeColor;
-import net.minecraft.potion.Effects;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -44,8 +41,6 @@ public class ModBlocks {
         }
     }
     public static final RegistryObject<Block> HARVESTER = BLOCKS.register("harvester", () -> new HarvesterBlock(Block.Properties.create(Material.ROCK, Blocks.DROPPER.getMaterialColor()).hardnessAndResistance(3.5F).sound(SoundType.STONE).setRequiresTool()));
-    public static final RegistryObject<Block> CROCUS = BLOCKS.register("crocus", () -> new FlowerBlock(Effects.LEVITATION, 8, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT)));
-    public static final RegistryObject<Block> POTTED_CROCUS = registerFlowerPot("potted_crocus", CROCUS);
 
     @SubscribeEvent
     public static void onClientSetupEvent(FMLClientSetupEvent event) {
@@ -55,18 +50,9 @@ public class ModBlocks {
         for(RegistryObject<Block> tradingPost: TRADING_POSTS.values()) {
             RenderTypeLookup.setRenderLayer(tradingPost.get(), RenderType.getTranslucent());
         }
-        RenderTypeLookup.setRenderLayer(CROCUS.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(POTTED_CROCUS.get(), RenderType.getCutout());
     }
 
     public static void register() {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(CROCUS.getId(), () -> POTTED_CROCUS.get());
-    }
-
-    private static RegistryObject<Block> registerFlowerPot(String name, RegistryObject<Block> flower) {
-        RegistryObject<Block> registry = BLOCKS.register(name, () -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> flower.get(), Block.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()));
-        ((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(flower.getId(), () -> registry.get());
-        return registry;
     }
 }

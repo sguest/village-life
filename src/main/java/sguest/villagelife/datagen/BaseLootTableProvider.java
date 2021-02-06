@@ -32,7 +32,6 @@ import net.minecraft.state.Property;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
-import sguest.villagelife.VillageLife;
 import sguest.villagelife.util.ModLog;
 
 //Adapted from https://wiki.mcjty.eu/modding/index.php?title=Tut14_Ep7#Loot_Tables

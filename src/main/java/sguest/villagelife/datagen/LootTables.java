@@ -1,17 +1,13 @@
 package sguest.villagelife.datagen;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Items;
-import net.minecraft.loot.EmptyLootEntry;
-import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.functions.CopyNbt;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.RegistryObject;
 import sguest.villagelife.block.ModBlocks;
 import sguest.villagelife.entity.merchant.villager.ModProfessions;
-import sguest.villagelife.item.ModItems;
 
 public class LootTables extends BaseLootTableProvider {
     public LootTables(DataGenerator dataGeneratorIn) {
@@ -35,8 +31,6 @@ public class LootTables extends BaseLootTableProvider {
             addStandardTable(tradingPost);
         }
         addStandardTable(ModBlocks.HARVESTER);
-        addStandardTable(ModBlocks.CROCUS);
-        addStandardTable(ModBlocks.POTTED_CROCUS, new Block[] {Blocks.FLOWER_POT, ModBlocks.CROCUS.get()});
 
         addHeroGift(ModProfessions.CARPENTER.get(),
             Items.ACACIA_LOG,
@@ -62,8 +56,7 @@ public class LootTables extends BaseLootTableProvider {
             Items.SUNFLOWER,
             Items.LILAC,
             Items.ROSE_BUSH,
-            Items.PEONY,
-            ModItems.CROCUS.get());
+            Items.PEONY);
     }
 
     private void addDoor(RegistryObject<Block> door) {

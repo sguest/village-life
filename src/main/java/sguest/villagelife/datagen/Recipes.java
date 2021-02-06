@@ -193,12 +193,6 @@ public class Recipes extends RecipeProvider {
             .addCriterion("has_beef", hasItem(Items.COOKED_BEEF))
             .build(consumer);
 
-        ShapelessRecipeBuilder.shapelessRecipe(Items.PURPLE_DYE)
-            .addIngredient(ModItems.CROCUS.get())
-            .setGroup(ItemGroup.DECORATIONS.getPath())
-            .addCriterion("has_purple_flower", hasItem(ModItems.CROCUS.get()))
-            .build(consumer, "purple_dye_from_crocus");
-
         reinforcedDoor(ModBlocks.REINFORCED_ACACIA_DOOR.get(), Blocks.ACACIA_DOOR, consumer);
         reinforcedDoor(ModBlocks.REINFORCED_BIRCH_DOOR.get(), Blocks.BIRCH_DOOR, consumer);
         reinforcedDoor(ModBlocks.REINFORCED_CRIMSON_DOOR.get(), Blocks.CRIMSON_DOOR, consumer);

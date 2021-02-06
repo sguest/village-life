@@ -19,7 +19,6 @@ import sguest.villagelife.loot.ModLootModifiers;
 import sguest.villagelife.tileentity.ModTileEntities;
 import sguest.villagelife.village.ModPointOfInterestType;
 import sguest.villagelife.village.ModVillageBuildings;
-import sguest.villagelife.world.gen.ModWorldGen;
 
 import static sguest.villagelife.VillageLife.MOD_ID;
 
@@ -53,7 +52,6 @@ public class VillageLife {
             ModProfessions.setup();
             ModSensorType.setup();
             ModMemoryModuleType.setup();
-            ModWorldGen.setup();
         });
     }
 

@@ -140,16 +140,15 @@ public class ModTrades {
             trades.get(2).add(simpleSelling(new ItemStack(Items.LILAC, 5), 1, 16, 5, false));
             trades.get(2).add(simpleSelling(new ItemStack(Items.ROSE_BUSH, 5), 1, 16, 5, false));
             trades.get(2).add(simpleSelling(new ItemStack(Items.PEONY, 5), 1, 16, 5, false));
-            trades.get(2).add(simpleSelling(new ItemStack(ModItems.CROCUS.get(), 5), 1, 16, 5, false));
 
             trades.get(3).add(simpleSelling(new ItemStack(Items.FLOWER_POT, 3), 1, 16, 10, false));
             trades.get(3).add(simpleBuying(new ItemStack(Items.BONE_MEAL, 32), 1, 15, 10, false));
 
             trades.get(4).add(stewSelling(Effects.FIRE_RESISTANCE, 80, 1, 12, 15, false));
             trades.get(4).add(stewSelling(Effects.REGENERATION, 140, 1, 12, 15, false));
-            trades.get(4).add(stewSelling(Effects.LEVITATION, 160, 1, 12, 15, false));
-            trades.get(4).add(stewSelling(Effects.MINING_FATIGUE, 160, 1, 12, 15, false));
-            trades.get(4).add(stewSelling(Effects.RESISTANCE, 100, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.WITHER, 200, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.SATURATION, 7, 1, 12, 15, false));
+            trades.get(4).add(stewSelling(Effects.BLINDNESS, 120, 1, 12, 15, false));
 
             trades.get(5).add(simpleSelling(new ItemStack(Items.NETHER_WART, 5), 3, 12, 30, false));
         }

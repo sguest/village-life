@@ -50,16 +50,10 @@ public class ItemModels extends ItemModelProvider {
             block(tradingPost);
         }
         block(ModBlocks.HARVESTER);
-
-        generatedBlock(ModBlocks.CROCUS);
     }
 
     private void generated(RegistryObject<Item> item) {
         simpleParent(item.getId(), "item/", "item/generated");
-    }
-
-    private void generatedBlock(RegistryObject<Block> block) {
-        simpleParent(block.getId(), "block/", "item/generated");
     }
 
     private void handheld(RegistryObject<Item> item) {
