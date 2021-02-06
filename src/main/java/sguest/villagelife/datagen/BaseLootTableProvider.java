@@ -126,16 +126,6 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         return builder.acceptFunction(CopyNbt.builder(Source.BLOCK_ENTITY).addOperation(sourcePath, targetPath, action));
     }
 
-    protected void addInjectTable(String path, Consumer<LootPool.Builder> configure) {
-        LootPool.Builder poolBuilder = LootPool.builder().rolls(new ConstantRange(1)).name(VillageLife.MOD_ID + "-main");
-
-        configure.accept(poolBuilder);
-
-        LootTable.Builder tableBuilder = LootTable.builder().addLootPool(poolBuilder);
-        ResourceLocation key = new ResourceLocation(VillageLife.MOD_ID, "inject/" + path);
-        lootTables.put(key, tableBuilder.build());
-    }
-
     @Override
     // Entry point
     public void act(DirectoryCache cache) {

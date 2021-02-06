@@ -20,5 +20,6 @@ public class DataGenerators {
         generator.addProvider(new ItemTagsProvider(generator, blockTags, fileHelper));
         generator.addProvider(new BlockStates(generator, fileHelper));
         generator.addProvider(new ItemModels(generator, fileHelper));
+        generator.addProvider(new GlobalLootModifierProvider(generator));
     }
 }

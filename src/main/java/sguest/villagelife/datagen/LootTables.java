@@ -64,35 +64,6 @@ public class LootTables extends BaseLootTableProvider {
             Items.ROSE_BUSH,
             Items.PEONY,
             ModItems.CROCUS.get());
-
-        addInjectTable("chests/village/village_weaponsmith", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(10));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(90));
-        });
-        addInjectTable("chests/desert_pyramid", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(11));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(89));
-        });
-        addInjectTable("chests/end_city_treasure", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(4));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(96));
-        });
-        addInjectTable("chests/jungle_temple", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(4));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(96));
-        });
-        addInjectTable("chests/nether_bridge", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(20));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(80));
-        });
-        addInjectTable("chests/simple_dungeon", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(12));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(88));
-        });
-        addInjectTable("chests/stronghold_corridor", builder -> {
-            builder.addEntry(ItemLootEntry.builder(ModItems.EMERALD_HORSE_ARMOR.get()).weight(3));
-            builder.addEntry(EmptyLootEntry.func_216167_a().weight(97));
-        });
     }
 
     private void addDoor(RegistryObject<Block> door) {
