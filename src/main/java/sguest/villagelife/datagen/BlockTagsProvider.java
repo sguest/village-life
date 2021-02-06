@@ -1,6 +1,7 @@
 package sguest.villagelife.datagen;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -40,6 +41,13 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
             tradingPostBuilder.addItemEntry(tradingPost.get());
         }
 
-        getOrCreateBuilder(ModTags.Blocks.HARVESTER_IGNORED);
+        getOrCreateBuilder(ModTags.Blocks.HARVESTER_TARGETS)
+            .addItemEntry(Blocks.WHEAT)
+            .addItemEntry(Blocks.POTATOES)
+            .addItemEntry(Blocks.CARROTS)
+            .addItemEntry(Blocks.BEETROOTS)
+            .addItemEntry(Blocks.COCOA)
+            .addItemEntry(Blocks.NETHER_WART)
+            .addItemEntry(Blocks.SWEET_BERRY_BUSH);
     }
 }

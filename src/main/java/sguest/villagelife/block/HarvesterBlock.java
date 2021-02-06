@@ -13,6 +13,8 @@ import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -22,7 +24,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import sguest.villagelife.tags.ModTags;
 
@@ -61,36 +62,40 @@ public class HarvesterBlock extends Block {
         BlockPos targetPos = pos.offset(state.get(FACING));
         BlockState targetState = world.getBlockState(targetPos);
         Block targetBlock = targetState.getBlock();
-        if(targetBlock instanceof IPlantable && !ModTags.Blocks.HARVESTER_IGNORED.contains(targetBlock)) {
-            BlockRayTraceResult raytrace =
-                new BlockRayTraceResult(new Vector3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()), state.get(FACING), pos, false);
-            ItemStack seedStack = targetBlock.getPickBlock(state, raytrace, world, targetPos, FakePlayerFactory.getMinecraft(world));
-            List<ItemStack> drops = Block.getDrops(targetState, world, targetPos, null);
-
-            boolean canHarvest = false;
-            boolean foundSeed = false;
-            for(ItemStack drop : drops) {
-                if(!foundSeed &&  drop.isItemEqual(seedStack)) {
-                    drop.shrink(1);
-                    foundSeed = true;
-                }
-                if(!drop.isEmpty()) {
-                    canHarvest = true;
+        if(ModTags.Blocks.HARVESTER_TARGETS.contains(targetBlock)) {
+            IntegerProperty ageProperty = null;
+            for(Property<?> prop : targetState.getProperties()) {
+                if(prop instanceof IntegerProperty && prop.getName() == "age") {
+                    ageProperty = (IntegerProperty)prop;
                 }
             }
+            
+            if(ageProperty != null && targetState.get(ageProperty) > 0) {
+                BlockRayTraceResult raytrace =
+                    new BlockRayTraceResult(new Vector3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()), state.get(FACING), pos, false);
+                ItemStack seedStack = targetBlock.getPickBlock(state, raytrace, world, targetPos, FakePlayerFactory.getMinecraft(world));
+                List<ItemStack> drops = Block.getDrops(targetState, world, targetPos, null);
 
-            if(canHarvest) {
-                BlockState defaultState = targetState.getBlock().getDefaultState();
-                if(defaultState.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                    defaultState = defaultState.with(BlockStateProperties.WATERLOGGED, targetState.get(BlockStateProperties.WATERLOGGED));
-                }
-
-                world.setBlockState(targetPos, defaultState);
+                boolean canHarvest = false;
+                boolean foundSeed = false;
                 for(ItemStack drop : drops) {
-                    InventoryHelper.spawnItemStack(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), drop);
+                    if(!foundSeed &&  drop.isItemEqual(seedStack)) {
+                        drop.shrink(1);
+                        foundSeed = true;
+                    }
+                    if(!drop.isEmpty()) {
+                        canHarvest = true;
+                    }
                 }
-                world.playSound(null, targetPos, targetState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1.5F, 1.0F);
-                world.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetState), targetPos.getX(), targetPos.getY(), targetPos.getZ(), 10, 0, 0.5, 0, 0.4);
+
+                if(canHarvest) {
+                    world.setBlockState(targetPos, targetState.with(ageProperty, 0));
+                    for(ItemStack drop : drops) {
+                        InventoryHelper.spawnItemStack(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), drop);
+                    }
+                    world.playSound(null, targetPos, targetState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1.5F, 1.0F);
+                    world.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetState), targetPos.getX(), targetPos.getY(), targetPos.getZ(), 10, 0, 0.5, 0, 0.4);
+                }
             }
         }
     }

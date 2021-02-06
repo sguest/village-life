@@ -10,7 +10,7 @@ import sguest.villagelife.VillageLife;
 public class ModTags {
     public static class Blocks {
         public static final INamedTag<Block> TRADING_POSTS = makeTag("trading_posts");
-        public static final INamedTag<Block> HARVESTER_IGNORED = makeTag("harvester_ignored");
+        public static final INamedTag<Block> HARVESTER_TARGETS = makeTag("harvester_targets");
 
         private static INamedTag<Block> makeTag(String id) {
             return BlockTags.makeWrapperTag(VillageLife.MOD_ID + ":" + id);
