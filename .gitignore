@@ -17,8 +17,8 @@ run/
 
 bin/
 
-src/main/resources/data/villagelife/recipes/generated/
+forge/src/main/resources/data/villagelife/recipes/generated/
 
-src/generated/
+forge/src/generated/
 
 logs/
