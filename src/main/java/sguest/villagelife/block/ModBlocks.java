@@ -41,6 +41,7 @@ public class ModBlocks {
         }
     }
     public static final RegistryObject<Block> HARVESTER = BLOCKS.register("harvester", () -> new HarvesterBlock(Block.Properties.create(Material.ROCK, Blocks.DROPPER.getMaterialColor()).hardnessAndResistance(3.5F).sound(SoundType.STONE).setRequiresTool()));
+    public static final RegistryObject<Block> GROWING_POPPY = BLOCKS.register("growing_poppy", () -> new GrowingFlowerBlock(Blocks.POPPY.getDefaultState(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT)));
 
     @SubscribeEvent
     public static void onClientSetupEvent(FMLClientSetupEvent event) {
@@ -50,6 +51,7 @@ public class ModBlocks {
         for(RegistryObject<Block> tradingPost: TRADING_POSTS.values()) {
             RenderTypeLookup.setRenderLayer(tradingPost.get(), RenderType.getTranslucent());
         }
+        RenderTypeLookup.setRenderLayer(GROWING_POPPY.get(), RenderType.getCutout());
     }
 
     public static void register() {

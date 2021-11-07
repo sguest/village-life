@@ -3,10 +3,12 @@ package sguest.villagelife.item;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.HorseArmorItem;
@@ -59,10 +61,13 @@ public class ModItems {
         }
     }
     public static final RegistryObject<Item> HARVESTER = ITEMS.register("harvester", () -> new BlockItem(ModBlocks.HARVESTER.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
+    public static final RegistryObject<Item> POPPY_SEEDS = ITEMS.register("poppy_seeds", () -> new BlockNamedItem(ModBlocks.GROWING_POPPY.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
     public static void register() {
         ModItemTier.register();
         ModArmorMaterial.register();
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        //ComposterBlock.CHANCES.put(POPPY_SEEDS.get(), 0.3f);
     }
 }

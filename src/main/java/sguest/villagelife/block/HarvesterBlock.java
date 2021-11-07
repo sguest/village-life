@@ -63,20 +63,21 @@ public class HarvesterBlock extends Block {
         BlockState targetState = world.getBlockState(targetPos);
         Block targetBlock = targetState.getBlock();
         if(ModTags.Blocks.HARVESTER_TARGETS.contains(targetBlock)) {
+
             IntegerProperty ageProperty = null;
             for(Property<?> prop : targetState.getProperties()) {
                 if(prop instanceof IntegerProperty && prop.getName() == "age") {
                     ageProperty = (IntegerProperty)prop;
                 }
             }
-            
+
+            boolean canHarvest = false;
+            List<ItemStack> drops = Block.getDrops(targetState, world, targetPos, null);
             if(ageProperty != null && targetState.get(ageProperty) > 0) {
                 BlockRayTraceResult raytrace =
                     new BlockRayTraceResult(new Vector3d(targetPos.getX(), targetPos.getY(), targetPos.getZ()), state.get(FACING), pos, false);
                 ItemStack seedStack = targetBlock.getPickBlock(state, raytrace, world, targetPos, FakePlayerFactory.getMinecraft(world));
-                List<ItemStack> drops = Block.getDrops(targetState, world, targetPos, null);
 
-                boolean canHarvest = false;
                 boolean foundSeed = false;
                 for(ItemStack drop : drops) {
                     if(!foundSeed &&  drop.isItemEqual(seedStack)) {
@@ -89,13 +90,24 @@ public class HarvesterBlock extends Block {
                 }
 
                 if(canHarvest) {
-                    world.setBlockState(targetPos, targetState.with(ageProperty, 0));
-                    for(ItemStack drop : drops) {
-                        InventoryHelper.spawnItemStack(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), drop);
-                    }
-                    world.playSound(null, targetPos, targetState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1.5F, 1.0F);
-                    world.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetState), targetPos.getX(), targetPos.getY(), targetPos.getZ(), 10, 0, 0.5, 0, 0.4);
+                    targetState = targetState.with(ageProperty, 0);
                 }
+            }
+            else {
+                GrowingFlowerBlock growingFlower = GrowingFlowerBlock.getByFlower(targetState);
+                if(growingFlower != null) {
+                    targetState = growingFlower.getDefaultState();
+                    canHarvest = true;
+                }
+            }
+
+            if(canHarvest) {
+                world.setBlockState(targetPos, targetState);
+                for(ItemStack drop : drops) {
+                    InventoryHelper.spawnItemStack(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), drop);
+                }
+                world.playSound(null, targetPos, targetState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1.5F, 1.0F);
+                world.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetState), targetPos.getX(), targetPos.getY(), targetPos.getZ(), 10, 0, 0.5, 0, 0.4);
             }
         }
     }
