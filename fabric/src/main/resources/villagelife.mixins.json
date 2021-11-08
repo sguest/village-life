@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "sguest.villagelife.mixin",
+    "compatibilityLevel": "JAVA_16",
+    "mixins": [
+        "RecipeManagerMixin",
+        "ServerAdvancementLoaderMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

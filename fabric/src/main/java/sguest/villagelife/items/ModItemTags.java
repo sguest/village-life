@@ -5,6 +5,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 
-public class ItemTags {
+public class ModItemTags {
     public static final Tag<Item> IRON_INGOTS = TagFactory.ITEM.create(new Identifier("c", "iron_ingots"));
 }
