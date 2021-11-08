@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "sguest.villagelife.VillageLifeMod"
+    ],
+    "client": [
+      "sguest.villagelife.client.VillageLifeModClient"
     ]
   },
   "mixins": [
