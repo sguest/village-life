@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import sguest.villagelife.blocks.ModBlocks;
 import sguest.villagelife.items.ModItems;
 import sguest.villagelife.recipe.RecipesProvider;
+import sguest.villagelife.resources.ModResourcePack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,7 @@ public class VillageLifeMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModResourcePack.initialize();
         ModBlocks.initialize();
         ModItems.initialize();
         RecipesProvider.initialize();
