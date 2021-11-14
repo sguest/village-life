@@ -14,6 +14,10 @@ public class ModItems {
 
     public static void initialize()
     {
-        Registry.register(Registry.ITEM, new Identifier(VillageLifeMod.MODID, "woodcutter"), WOODCUTTER);
+        Registry.register(Registry.ITEM, Identifiers.WOODCUTTER, WOODCUTTER);
+    }
+
+    public class Identifiers {
+        public static final Identifier WOODCUTTER = new Identifier(VillageLifeMod.MODID, "woodcutter");
     }
 }

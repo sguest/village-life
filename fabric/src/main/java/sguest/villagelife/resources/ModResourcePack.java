@@ -10,20 +10,46 @@ import net.devtech.arrp.json.models.JTextures;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import sguest.villagelife.VillageLifeMod;
+import sguest.villagelife.blocks.ModBlocks;
+import sguest.villagelife.items.ModItems;
 
 public class ModResourcePack {
     public static final RuntimeResourcePack RESOURCE_PACK = RuntimeResourcePack.create(VillageLifeMod.MODID + ":resource");
 
     public static void initialize() {
+        registerHorizontalRotatable(ModBlocks.Identifiers.WOODCUTTER);
+        registerWoodcutterModel();
+        registerItemBlock(ModItems.Identifiers.WOODCUTTER, ModBlocks.Identifiers.WOODCUTTER);
+
+        RRPCallback.BEFORE_VANILLA.register(a -> a.add(RESOURCE_PACK));
+    }
+
+    private static void registerItemBlock(Identifier item, Identifier block) {
+        RESOURCE_PACK.addModel(new JModel().parent(makeBlockIdentifier(block).toString()), makeItemIdentifier(item));
+    }
+
+    private static void registerHorizontalRotatable(Identifier id) {
+        var blockId = makeBlockIdentifier(id);
+
         RESOURCE_PACK.addBlockState(
             JState.state(
-                JState.variant().put("facing", "north", JState.model(new Identifier(VillageLifeMod.MODID, "blocks/woodcutter")))
-                    .put("facing", "south", JState.model(new Identifier(VillageLifeMod.MODID, "blocks/woodcutter")).y(180))
-                    .put("facing", "west", JState.model(new Identifier(VillageLifeMod.MODID, "blocks/woodcutter")).y(270))
-                    .put("facing", "east", JState.model(new Identifier(VillageLifeMod.MODID, "blocks/woodcutter")).y(90))
+                JState.variant().put("facing", "north", JState.model(blockId))
+                    .put("facing", "south", JState.model(blockId).y(180))
+                    .put("facing", "west", JState.model(blockId).y(270))
+                    .put("facing", "east", JState.model(blockId).y(90))
             ),
-            new Identifier(VillageLifeMod.MODID, "woodcutter"));
+            id);
+    }
 
+    private static Identifier makeBlockIdentifier(Identifier id) {
+        return new Identifier(id.getNamespace(), "blocks/" + id.getPath());
+    }
+
+    private static Identifier makeItemIdentifier(Identifier id) {
+        return new Identifier(id.getNamespace(), "item/" + id.getPath());
+    }
+
+    private static void registerWoodcutterModel() {
         RESOURCE_PACK.addModel(new JModel()
             .parent("minecraft:block/block")
             .textures(new JTextures()
@@ -43,10 +69,6 @@ public class ModResourcePack {
                     .south(new JFace("saw").uv(1, 9, 15, 16).tintIndex(0))
                 )
             ),
-            new Identifier(VillageLifeMod.MODID, "blocks/woodcutter"));
-        
-        RESOURCE_PACK.addModel(new JModel().parent("villagelife:blocks/woodcutter"), new Identifier(VillageLifeMod.MODID, "item/woodcutter"));
-
-        RRPCallback.BEFORE_VANILLA.register(a -> a.add(RESOURCE_PACK));
+            makeBlockIdentifier(ModBlocks.Identifiers.WOODCUTTER));
     }
 }
