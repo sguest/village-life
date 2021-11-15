@@ -12,10 +12,6 @@ public class ModBlocks {
     public static final Block WOODCUTTER = new WoodcutterBlock(FabricBlockSettings.of(Material.WOOD).strength(2.5f).sounds(BlockSoundGroup.WOOD));
 
     public static void initialize() {
-        Registry.register(Registry.BLOCK, Identifiers.WOODCUTTER, WOODCUTTER);
-    }
-
-    public class Identifiers {
-        public static final Identifier WOODCUTTER = new Identifier(VillageLifeMod.MODID, "woodcutter");
+        Registry.register(Registry.BLOCK, new Identifier(VillageLifeMod.MODID, "woodcutter"), WOODCUTTER);
     }
 }

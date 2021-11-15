@@ -18,9 +18,9 @@ public class VillageLifeMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModResourcePack.initialize();
         ModBlocks.initialize();
         ModItems.initialize();
+        ModResourcePack.initialize();
         RecipesProvider.initialize();
     }
 }

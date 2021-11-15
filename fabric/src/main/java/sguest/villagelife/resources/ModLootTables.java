@@ -1,20 +1,22 @@
 package sguest.villagelife.resources;
 
-import net.devtech.arrp.json.blockstate.JState;
 import net.devtech.arrp.json.loot.JCondition;
 import net.devtech.arrp.json.loot.JEntry;
 import net.devtech.arrp.json.loot.JFunction;
 import net.devtech.arrp.json.loot.JLootTable;
 import net.devtech.arrp.json.loot.JPool;
+import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import sguest.villagelife.blocks.ModBlocks;
 
 public class ModLootTables {
     public static void initialize() {
-        addStandardBlock(ModBlocks.Identifiers.WOODCUTTER);
+        addStandardBlock(ModBlocks.WOODCUTTER);
     }
 
-    private static void addStandardBlock(Identifier id) {
+    private static void addStandardBlock(Block block) {
+        var id = Registry.BLOCK.getId(ModBlocks.WOODCUTTER);
         ModResourcePack.RESOURCE_PACK.addLootTable(new Identifier(id.getNamespace(), "blocks/" + id.getPath()),
             new JLootTable("minecraft:block").pool(
                 new JPool().rolls(1)

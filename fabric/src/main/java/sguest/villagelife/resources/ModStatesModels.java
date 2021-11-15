@@ -5,24 +5,28 @@ import net.devtech.arrp.json.models.JElement;
 import net.devtech.arrp.json.models.JFace;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import sguest.villagelife.blocks.ModBlocks;
 import sguest.villagelife.items.ModItems;
 
 public class ModStatesModels {
     public static void initialize() {
-        registerHorizontalRotatable(ModBlocks.Identifiers.WOODCUTTER);
+        registerHorizontalRotatable(ModBlocks.WOODCUTTER);
         registerWoodcutterModel();
-        registerItemBlock(ModItems.Identifiers.WOODCUTTER, ModBlocks.Identifiers.WOODCUTTER);
+        registerItemBlock(ModItems.WOODCUTTER, ModBlocks.WOODCUTTER);
     }
 
-    private static void registerItemBlock(Identifier item, Identifier block) {
-        ModResourcePack.RESOURCE_PACK.addModel(new JModel().parent(makeBlockIdentifier(block).toString()), makeItemIdentifier(item));
+    private static void registerItemBlock(Item item, Block block) {
+        ModResourcePack.RESOURCE_PACK.addModel(
+            new JModel().parent(getBlockIdentifier(block).toString()), getItemIdentifier(item));
     }
 
-    private static void registerHorizontalRotatable(Identifier id) {
-        var blockId = makeBlockIdentifier(id);
+    private static void registerHorizontalRotatable(Block block) {
+        var blockId = getBlockIdentifier(block);
 
         ModResourcePack.RESOURCE_PACK.addBlockState(
             JState.state(
@@ -31,14 +35,16 @@ public class ModStatesModels {
                     .put("facing", "west", JState.model(blockId).y(270))
                     .put("facing", "east", JState.model(blockId).y(90))
             ),
-            id);
+            Registry.BLOCK.getId(block));
     }
 
-    private static Identifier makeBlockIdentifier(Identifier id) {
+    private static Identifier getBlockIdentifier(Block block) {
+        var id = Registry.BLOCK.getId(block);
         return new Identifier(id.getNamespace(), "blocks/" + id.getPath());
     }
 
-    private static Identifier makeItemIdentifier(Identifier id) {
+    private static Identifier getItemIdentifier(Item item) {
+        var id = Registry.ITEM.getId(item);
         return new Identifier(id.getNamespace(), "item/" + id.getPath());
     }
 
@@ -62,6 +68,6 @@ public class ModStatesModels {
                     .south(new JFace("saw").uv(1, 9, 15, 16).tintIndex(0))
                 )
             ),
-            makeBlockIdentifier(ModBlocks.Identifiers.WOODCUTTER));
+            getBlockIdentifier(ModBlocks.WOODCUTTER));
     }
 }
