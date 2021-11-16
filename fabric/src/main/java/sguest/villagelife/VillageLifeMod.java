@@ -3,7 +3,6 @@ package sguest.villagelife;
 import net.fabricmc.api.ModInitializer;
 import sguest.villagelife.blocks.ModBlocks;
 import sguest.villagelife.items.ModItems;
-import sguest.villagelife.recipe.RecipesProvider;
 import sguest.villagelife.resources.ModResourcePack;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +20,5 @@ public class VillageLifeMod implements ModInitializer {
         ModBlocks.initialize();
         ModItems.initialize();
         ModResourcePack.initialize();
-        RecipesProvider.initialize();
     }
 }

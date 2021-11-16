@@ -11,6 +11,8 @@ public class ModResourcePack {
         ModStatesModels.initialize();
         ModLootTables.initialize();
         ModTags.initialize();
+        ModRecipes.initialize();
+        ModAdvancements.initialize();
 
         RRPCallback.BEFORE_VANILLA.register(a -> a.add(RESOURCE_PACK));
     }
